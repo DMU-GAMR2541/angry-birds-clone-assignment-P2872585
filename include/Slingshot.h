@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Bird.h"
 
 /// <summary>
 /// A simple class that you can use to begin the testing process using Googletest.
@@ -10,14 +11,14 @@ private:
     /// Variables that define the slingshot.
     /// </summary>
     int i_tension;
-    std::string str_birdType;
+    BirdType birdType;
     const int MAX_TENSION = 100;
 
 public:
-    Slingshot() : i_tension(0), str_birdType("Red") {}
+    Slingshot() : i_tension(0), birdType(BirdType::Red) {}
 
     //Functions to test.
-    void loadBird(std::string str_type) { str_birdType = str_type; }
+    void loadBird(BirdType birdType) { this->birdType = birdType; }
 
     bool pullBack(int amount) {
         if (amount < 0) return false;
@@ -26,7 +27,7 @@ public:
     }
 
     int getTension() const { return i_tension; }
-    std::string getBirdType() const { return str_birdType; }
+    BirdType getBirdType() const { return birdType; }
 
     void release() { i_tension = 0; }
 };
