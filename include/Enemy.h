@@ -1,27 +1,30 @@
 #pragma once
-class Enemy {
+#include "DynamicObject.h"
+class Enemy : public DynamicObject {
 /// <summary>
 /// Varaibles that define an enemy.
 /// </summary>
 private:
-    int i_health;
+    int health;
     bool b_isDestroyed;
 
 public:
     //Default constructor for an enemy. 
     Enemy() = default;
-    Enemy(int i_initialHealth) : i_health(i_initialHealth), b_isDestroyed(false) {}
+    Enemy(int health, sf::Shape* shape) : health(health), b_isDestroyed(false), DynamicObject(shape) {}
 
     //Class functions to be tested.
     void takeDamage(int damage) {
         if (damage < 0) return;
-            i_health -= damage;
-        if (i_health <= 0) {
-            i_health = 0;
+        
+        health -= damage;
+        if (health <= 0) {
+            health = 0;
             b_isDestroyed = true;
         }
     }
 
-    int getHealth() const { return i_health; }
+    int getHealth() const { return health; }
     bool checkIfPopped() const { return b_isDestroyed; }
+
 };

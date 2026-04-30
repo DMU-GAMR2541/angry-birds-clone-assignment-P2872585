@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
+#include <Pig.h>
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -87,6 +88,11 @@ int main() {
     sf_ballVisual.setOrigin(15.0f, 15.0f);
     sf_ballVisual.setFillColor(sf::Color::Yellow);
 
+    b2BodyDef pigBodyDef;
+    pigBodyDef.type = b2_dynamicBody;
+    pigBodyDef.position.Set(0.0f, 0.0f);
+	Pig pig(100, 15.0f);
+
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
@@ -133,6 +139,8 @@ int main() {
         window.draw(sf_wallVisual);
         window.draw(sf_plankVisual);
         window.draw(sf_ballVisual);
+
+		pig.Render(window);
 
         window.display();
     }
