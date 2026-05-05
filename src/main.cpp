@@ -2,6 +2,7 @@
 #include <box2d/box2d.h>
 #include <iostream>
 #include <Pig.h>
+#include <Bird.h>
 #include <List>
 
 int main() {
@@ -94,6 +95,11 @@ int main() {
     pigBodyDef.position.Set(0.0f, 0.0f);
 	Pig pig(&world, 100, 15.0f, &pigBodyDef);
 
+    b2BodyDef birdBodyDef;
+	birdBodyDef.type = b2_dynamicBody;
+	birdBodyDef.position.Set(10.0f, 0.0f);
+	Bird bird(&world, &birdBodyDef, BirdType::Red, 15.0f);
+
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
         sf::Event event;
@@ -141,7 +147,9 @@ int main() {
         window.draw(sf_plankVisual);
         window.draw(sf_ballVisual);
 
+        // TODO: Abstract
 		pig.Render(window);
+        bird.Render(window);
 
         window.display();
     }

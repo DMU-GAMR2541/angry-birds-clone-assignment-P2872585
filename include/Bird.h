@@ -1,8 +1,21 @@
 #pragma once
 #include "DynamicObject.h"
-class Bird : DynamicObject {
+enum BirdType {
+	Red,
+	Blue,
+	Yellow,
+	Black,
+	White
+};
 
-	Bird(BirdType type, float size) : DynamicObject(new sf::CircleShape(size)) {
+class Bird : public DynamicObject {
+
+public:
+	Bird() = default;
+
+	Bird(b2World* world, b2BodyDef* bodyDef, BirdType type, float size) : DynamicObject(world, new sf::CircleShape(size), bodyDef) {
+		sprite->setOrigin(size, size); // Set origin to center for proper rotation and positioning
+		// TODO: Use sprites instead of colours
 		switch (type) {
 			case BirdType::Red:
 				sprite->setFillColor(sf::Color(255, 0, 0));
@@ -24,12 +37,4 @@ class Bird : DynamicObject {
 				break;
 		}
 	}
-};
-
-enum BirdType {
-	Red,
-	Blue,
-	Yellow,
-	Black,
-	White
 };
