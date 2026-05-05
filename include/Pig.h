@@ -5,9 +5,10 @@ class Pig : public Enemy {
 public:
 	Pig() = default;
 
-	Pig(int health, float size) : Enemy(health, new sf::CircleShape(size)) {
+	Pig(b2World* world, int health, float size, b2BodyDef* bodyDef) : Enemy(health, world, new sf::CircleShape(size), bodyDef) {
 		// Set green fill colour
-		shape->setFillColor(sf::Color(0, 255, 0));
+		sprite->setFillColor(sf::Color(0, 255, 0));
+		sprite->setOrigin(size, size); // Set origin to center for proper rotation and positioning
 	}
 
 };

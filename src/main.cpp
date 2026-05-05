@@ -2,6 +2,7 @@
 #include <box2d/box2d.h>
 #include <iostream>
 #include <Pig.h>
+#include <List>
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -91,7 +92,7 @@ int main() {
     b2BodyDef pigBodyDef;
     pigBodyDef.type = b2_dynamicBody;
     pigBodyDef.position.Set(0.0f, 0.0f);
-	Pig pig(100, 15.0f);
+	Pig pig(&world, 100, 15.0f, &pigBodyDef);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
