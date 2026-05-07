@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Pig.h>
 #include <Bird.h>
-#include <list>
+#include "ContactListener.h"
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -19,7 +19,14 @@ int main() {
     //setup world.
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
+    
+    std::vector<GameObject*> gameObjects;
 
+	ContactListener contactListener = ContactListener(&gameObjects);
+	world.SetContactListener(&contactListener);
+
+    // TODO move all of these into game objects
+    
     //Setup ground for the circle to move / bounce on.
     //Needs to have a body definition and a body. We use a raw pointer for the b2Body as Box2d does the management itself.
     //A body can be defined as having a position, velocity, and mass. 
@@ -93,17 +100,14 @@ int main() {
     b2BodyDef pigBodyDef;
     pigBodyDef.type = b2_dynamicBody;
     pigBodyDef.position.Set(0.0f, 0.0f);
-	Pig pig(&world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
+	Pig pig(gameObjects.size() + 1, &world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
+    pig.addEntity(&gameObjects);
 
     b2BodyDef birdBodyDef;
 	birdBodyDef.type = b2_dynamicBody;
 	birdBodyDef.position.Set(10.0f, 0.0f);
-	Bird bird(&world, &birdBodyDef, &b2_ballFixture, BirdType::Red, 15.0f);
-
-	std::list<GameObject*> gameObjects;
-    
-	gameObjects.push_back(&pig);
-	gameObjects.push_back(&bird);
+	Bird bird(gameObjects.size() + 1, &world, &birdBodyDef, &b2_ballFixture, BirdType::Red, 15.0f);
+	bird.addEntity(&gameObjects);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {

@@ -13,7 +13,7 @@ class Bird : public DynamicObject {
 public:
 	Bird() = default;
 
-	Bird(b2World* world, b2BodyDef* bodyDef, b2FixtureDef* materialDef, BirdType type, float size) : DynamicObject(world, new sf::CircleShape(size), bodyDef, materialDef) {
+	Bird(int entityId, b2World* world, b2BodyDef* bodyDef, b2FixtureDef* materialDef, BirdType type, float size) : DynamicObject(entityId, world, new sf::CircleShape(size), bodyDef, materialDef) {
 		sprite->setOrigin(size, size); // Set origin to center for proper rotation and positioning
 		// TODO: Use sprites instead of colours
 		switch (type) {

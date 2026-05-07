@@ -11,7 +11,7 @@ private:
 public:
     //Default constructor for an enemy. 
     Enemy() = default;
-    Enemy(int health, b2World* world, sf::Shape* shape, b2BodyDef* bodyDef, b2FixtureDef* materialDef) : health(health), b_isDestroyed(false), DynamicObject(world, shape, bodyDef, materialDef) {}
+    Enemy(int entityId, int health, b2World* world, sf::Shape* shape, b2BodyDef* bodyDef, b2FixtureDef* materialDef) : health(health), b_isDestroyed(false), DynamicObject(entityId, world, shape, bodyDef, materialDef) {}
 
     //Class functions to be tested.
     void takeDamage(int damage) {
