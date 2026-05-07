@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Pig.h>
 #include <Bird.h>
-#include <List>
+#include <list>
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -93,12 +93,17 @@ int main() {
     b2BodyDef pigBodyDef;
     pigBodyDef.type = b2_dynamicBody;
     pigBodyDef.position.Set(0.0f, 0.0f);
-	Pig pig(&world, 100, 15.0f, &pigBodyDef);
+	Pig pig(&world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
 
     b2BodyDef birdBodyDef;
 	birdBodyDef.type = b2_dynamicBody;
 	birdBodyDef.position.Set(10.0f, 0.0f);
-	Bird bird(&world, &birdBodyDef, BirdType::Red, 15.0f);
+	Bird bird(&world, &birdBodyDef, &b2_ballFixture, BirdType::Red, 15.0f);
+
+	std::list<GameObject*> gameObjects;
+    
+	gameObjects.push_back(&pig);
+	gameObjects.push_back(&bird);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
@@ -147,9 +152,9 @@ int main() {
         window.draw(sf_plankVisual);
         window.draw(sf_ballVisual);
 
-        // TODO: Abstract
-		pig.Render(window);
-        bird.Render(window);
+        for (GameObject* obj : gameObjects) {
+            obj->Render(window);
+		}
 
         window.display();
     }

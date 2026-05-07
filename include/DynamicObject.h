@@ -15,7 +15,7 @@ protected:
 public:
 	DynamicObject() = default;
 	~DynamicObject() = default;
-	DynamicObject(b2World* world, sf::Shape* sprite, b2BodyDef* bodyDef) {
+	DynamicObject(b2World* world, sf::Shape* sprite, b2BodyDef* bodyDef, b2FixtureDef* materialDef) {
 		this->sprite = sprite;
 
 		this->body = world->CreateBody(bodyDef);
@@ -23,11 +23,11 @@ public:
 		b2CircleShape b2_circleShape;
 		b2_circleShape.m_radius = 15.0f / SCALE;
 
-		b2FixtureDef b2_ballFixture;
-		b2_ballFixture.shape = &b2_circleShape;
-		b2_ballFixture.density = 1.0f;
-		b2_ballFixture.restitution = 0.5f; // Bounciness
-		this->body->CreateFixture(&b2_ballFixture);
+		//b2FixtureDef b2_ballFixture;
+		//b2_ballFixture.shape = &b2_circleShape;
+		//b2_ballFixture.density = 1.0f;
+		//b2_ballFixture.restitution = 0.5f; // Bounciness
+		this->body->CreateFixture(materialDef);
 		//this->body = body;
 	}
 
