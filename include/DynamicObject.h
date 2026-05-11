@@ -15,7 +15,7 @@ protected:
 
 public:
 	DynamicObject() = default;
-	~DynamicObject() = default;
+	~DynamicObject() override = default;
 	DynamicObject(int entityId, b2World* world, sf::Shape* sprite, b2BodyDef* bodyDef, b2FixtureDef* materialDef) {
 		this->sprite = sprite;
 
@@ -41,8 +41,12 @@ public:
 	}
 
 	void GameObject::Render(sf::RenderWindow& window) override {
-		sprite->setPosition(body->GetPosition().x * Constants::SCALE, body->GetPosition().y * Constants::SCALE);
+
 		window.draw(*sprite);
+	}
+
+	void UpdatePhysics() override {
+		sprite->setPosition(body->GetPosition().x * Constants::SCALE, body->GetPosition().y * Constants::SCALE);
 	}
 
 	b2Vec2 getPosition() const {

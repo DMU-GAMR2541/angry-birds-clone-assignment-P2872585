@@ -1,10 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
-#include <Pig.h>
-#include <Bird.h>
-#include <Constants.h>
+#include "Pig.h"
+#include "Bird.h"
+#include "Constants.h"
 #include "ContactListener.h"
+#include "Ground.h"
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -24,29 +25,14 @@ int main() {
 	world.SetContactListener(&contactListener);
 
     // TODO move all of these into game objects
-    
-    //Setup ground for the circle to move / bounce on.
-    //Needs to have a body definition and a body. We use a raw pointer for the b2Body as Box2d does the management itself.
-    //A body can be defined as having a position, velocity, and mass. 
-    b2BodyDef b2_groundBodyDef;
-    b2_groundBodyDef.position.Set(400.0f / scale, 590.0f / scale);
-    b2Body* b2_groundBody = world.CreateBody(&b2_groundBodyDef);
 
-    //Define a fixture shape that relates to the collision for the ground.
-    b2PolygonShape b2_groundBox;
-    b2_groundBox.SetAsBox(400.0f / scale, 10.0f / scale);
-    b2_groundBody->CreateFixture(&b2_groundBox, 0.0f);
-
-    //Set up the ground visualisation.
-    sf::RectangleShape sf_groundVisual(sf::Vector2f(800.0f, 20.0f));
-    sf_groundVisual.setOrigin(400.0f, 10.0f);
-    sf_groundVisual.setFillColor(sf::Color(34, 139, 34)); // Forest Green
+    Ground ground(&world, 400.0f, 590.0f, 800.0f, 20.0f);
+    gameObjects.push_back(&ground);
 
     //Setting up a wall for the ball to hit.
     b2BodyDef b2_wallDef;
     b2_wallDef.position.Set(750.0f / scale, 500.0f / scale);
     b2Body* b2_wallBody = world.CreateBody(&b2_wallDef);
-
 
     b2PolygonShape b2_wallBox;
     b2_wallBox.SetAsBox(10.0f / scale, 80.0f / scale);
@@ -133,13 +119,16 @@ int main() {
         // Update Physics
         world.Step(1.0f / 60.0f, 8, 3);
 
+        for (GameObject* obj : gameObjects) {
+            obj->UpdatePhysics();
+        }
+
         //All of the visuals needs to be synced with the physics.
 
         sf_ballVisual.setPosition(b2_ballBody->GetPosition().x * scale, b2_ballBody->GetPosition().y * scale);
         sf_ballVisual.setRotation(b2_ballBody->GetAngle() * (180.0f / pi));
 
         //Static objects usually don't move, but we set the position once.
-        sf_groundVisual.setPosition(b2_groundBody->GetPosition().x * scale, b2_groundBody->GetPosition().y * scale);
         sf_wallVisual.setPosition(b2_wallBody->GetPosition().x * scale, b2_wallBody->GetPosition().y * scale);
 
         // Dynamic wall.
@@ -149,7 +138,6 @@ int main() {
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
 
-        window.draw(sf_groundVisual);
         window.draw(sf_wallVisual);
         window.draw(sf_plankVisual);
         window.draw(sf_ballVisual);
