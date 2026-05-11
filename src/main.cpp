@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Pig.h>
 #include <Bird.h>
+#include <Constants.h>
 #include "ContactListener.h"
 
 int main() {
@@ -10,12 +11,9 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Annoyed_Flocks");
     window.setFramerateLimit(60);
 
-    //Box2D works in meters. SFML works in pixels.
-    const float SCALE = 30.0f;
-
-    //Can set a definition for PI.
-    const float PI = 3.1415927;
-
+    const float scale = Constants::SCALE;
+    const float pi = Constants::PI;
+    
     //setup world.
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
@@ -31,12 +29,12 @@ int main() {
     //Needs to have a body definition and a body. We use a raw pointer for the b2Body as Box2d does the management itself.
     //A body can be defined as having a position, velocity, and mass. 
     b2BodyDef b2_groundBodyDef;
-    b2_groundBodyDef.position.Set(400.0f / SCALE, 590.0f / SCALE);
+    b2_groundBodyDef.position.Set(400.0f / scale, 590.0f / scale);
     b2Body* b2_groundBody = world.CreateBody(&b2_groundBodyDef);
 
     //Define a fixture shape that relates to the collision for the ground.
     b2PolygonShape b2_groundBox;
-    b2_groundBox.SetAsBox(400.0f / SCALE, 10.0f / SCALE);
+    b2_groundBox.SetAsBox(400.0f / scale, 10.0f / scale);
     b2_groundBody->CreateFixture(&b2_groundBox, 0.0f);
 
     //Set up the ground visualisation.
@@ -46,12 +44,12 @@ int main() {
 
     //Setting up a wall for the ball to hit.
     b2BodyDef b2_wallDef;
-    b2_wallDef.position.Set(750.0f / SCALE, 500.0f / SCALE);
+    b2_wallDef.position.Set(750.0f / scale, 500.0f / scale);
     b2Body* b2_wallBody = world.CreateBody(&b2_wallDef);
 
 
     b2PolygonShape b2_wallBox;
-    b2_wallBox.SetAsBox(10.0f / SCALE, 80.0f / SCALE);
+    b2_wallBox.SetAsBox(10.0f / scale, 80.0f / scale);
     b2_wallBody->CreateFixture(&b2_wallBox, 0.0f);
 
     sf::RectangleShape sf_wallVisual(sf::Vector2f(20.0f, 160.0f));
@@ -62,11 +60,11 @@ int main() {
     b2BodyDef b2_plankDef;
 
     b2_plankDef.type = b2_dynamicBody;
-    b2_plankDef.position.Set(550.0f / SCALE, 450.0f / SCALE);
+    b2_plankDef.position.Set(550.0f / scale, 450.0f / scale);
     b2Body* b2_plankBody = world.CreateBody(&b2_plankDef);
 
     b2PolygonShape b2_plankBox;
-    b2_plankBox.SetAsBox(10.0f / SCALE, 60.0f / SCALE);
+    b2_plankBox.SetAsBox(10.0f / scale, 60.0f / scale);
 
     b2FixtureDef b2_plankFixture;
     b2_plankFixture.shape = &b2_plankBox;
@@ -81,11 +79,11 @@ int main() {
     //Create a ball that is fired when space is pressed. We need to first have a dynamic ball to do it.
     b2BodyDef b2_ballDef;
     b2_ballDef.type = b2_dynamicBody;
-    b2_ballDef.position.Set(100.0f / SCALE, 500.0f / SCALE);
+    b2_ballDef.position.Set(100.0f / scale, 500.0f / scale);
     b2Body* b2_ballBody = world.CreateBody(&b2_ballDef);
 
     b2CircleShape b2_circleShape;
-    b2_circleShape.m_radius = 15.0f / SCALE;
+    b2_circleShape.m_radius = 15.0f / scale;
 
     b2FixtureDef b2_ballFixture;
     b2_ballFixture.shape = &b2_circleShape;
@@ -120,7 +118,7 @@ int main() {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Space) {
                     // Reset position of the ball so that it can be fired again from its original poisition.
-                    b2_ballBody->SetTransform(b2Vec2(100.0f / SCALE, 500.0f / SCALE), 0);
+                    b2_ballBody->SetTransform(b2Vec2(100.0f / scale, 500.0f / scale), 0);
                     b2_ballBody->SetLinearVelocity(b2Vec2(0, 0));
                     b2_ballBody->SetAngularVelocity(0);
 
@@ -137,16 +135,16 @@ int main() {
 
         //All of the visuals needs to be synced with the physics.
 
-        sf_ballVisual.setPosition(b2_ballBody->GetPosition().x * SCALE, b2_ballBody->GetPosition().y * SCALE);
-        sf_ballVisual.setRotation(b2_ballBody->GetAngle() * (180.0f / PI));
+        sf_ballVisual.setPosition(b2_ballBody->GetPosition().x * scale, b2_ballBody->GetPosition().y * scale);
+        sf_ballVisual.setRotation(b2_ballBody->GetAngle() * (180.0f / pi));
 
         //Static objects usually don't move, but we set the position once.
-        sf_groundVisual.setPosition(b2_groundBody->GetPosition().x * SCALE, b2_groundBody->GetPosition().y * SCALE);
-        sf_wallVisual.setPosition(b2_wallBody->GetPosition().x * SCALE, b2_wallBody->GetPosition().y * SCALE);
+        sf_groundVisual.setPosition(b2_groundBody->GetPosition().x * scale, b2_groundBody->GetPosition().y * scale);
+        sf_wallVisual.setPosition(b2_wallBody->GetPosition().x * scale, b2_wallBody->GetPosition().y * scale);
 
         // Dynamic wall.
-        sf_plankVisual.setPosition(b2_plankBody->GetPosition().x * SCALE, b2_plankBody->GetPosition().y * SCALE);
-        sf_plankVisual.setRotation(b2_plankBody->GetAngle() * (180.0f / PI));
+        sf_plankVisual.setPosition(b2_plankBody->GetPosition().x * scale, b2_plankBody->GetPosition().y * scale);
+        sf_plankVisual.setRotation(b2_plankBody->GetAngle() * (180.0f / pi));
 
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue

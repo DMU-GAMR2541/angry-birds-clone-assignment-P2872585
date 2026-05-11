@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include <box2d/box2d.h>
-#include <list>
+
 class DynamicObject : public GameObject {
 
 protected:
@@ -22,7 +22,7 @@ public:
 		this->body = world->CreateBody(bodyDef);
 
 		b2CircleShape b2_circleShape;
-		b2_circleShape.m_radius = 15.0f / SCALE;
+		b2_circleShape.m_radius = 15.0f / Constants::SCALE;
 
 		//b2FixtureDef b2_ballFixture;
 		//b2_ballFixture.shape = &b2_circleShape;
@@ -41,7 +41,7 @@ public:
 	}
 
 	void GameObject::Render(sf::RenderWindow& window) override {
-		sprite->setPosition(body->GetPosition().x * SCALE, body->GetPosition().y * SCALE);
+		sprite->setPosition(body->GetPosition().x * Constants::SCALE, body->GetPosition().y * Constants::SCALE);
 		window.draw(*sprite);
 	}
 
