@@ -6,7 +6,9 @@ class Ground : public StaticObject {
 private:
     sf::RectangleShape shape;
 public:
-    Ground(b2World* world, float x, float y, float width, float height);
+	Ground() = default;
+	~Ground() override = default;
+    Ground(b2World& world, float x, float y, float width, float height);
 
     void Render(sf::RenderWindow& window) override {
         window.draw(shape);

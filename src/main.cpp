@@ -1,8 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
-#include "Pig.h"
-#include "Bird.h"
+#include "RedBird.h"
 #include "Constants.h"
 #include "ContactListener.h"
 #include "Ground.h"
@@ -26,7 +25,7 @@ int main() {
 
     // TODO move all of these into game objects
 
-    Ground ground(&world, 400.0f, 590.0f, 800.0f, 20.0f);
+    Ground ground(world, 400.0f, 590.0f, 800.0f, 20.0f);
     gameObjects.push_back(&ground);
 
     //Setting up a wall for the ball to hit.
@@ -81,16 +80,18 @@ int main() {
     sf_ballVisual.setOrigin(15.0f, 15.0f);
     sf_ballVisual.setFillColor(sf::Color::Yellow);
 
-    b2BodyDef pigBodyDef;
-    pigBodyDef.type = b2_dynamicBody;
-    pigBodyDef.position.Set(0.0f, 0.0f);
-	Pig pig(gameObjects.size() + 1, &world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
-    pig.addEntity(&gameObjects);
+ //   b2BodyDef pigBodyDef;
+ //   pigBodyDef.type = b2_dynamicBody;
+ //   pigBodyDef.position.Set(0.0f, 0.0f);
+	//Pig pig(gameObjects.size() + 1, &world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
+ //   pig.addEntity(&gameObjects);
 
     b2BodyDef birdBodyDef;
 	birdBodyDef.type = b2_dynamicBody;
 	birdBodyDef.position.Set(10.0f, 0.0f);
-	Bird bird(gameObjects.size() + 1, &world, &birdBodyDef, &b2_ballFixture, BirdType::Red, 15.0f);
+	sf::Texture birdTexture;
+	birdTexture.loadFromFile("assets/Ang_Birds/RedBird.png");
+	RedBird bird(world, gameObjects.size() + 1, 10.0f, 0.0f, birdTexture);
 	bird.addEntity(&gameObjects);
 
     // --- 7. MAIN LOOP ---

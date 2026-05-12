@@ -1,7 +1,7 @@
 #include "Ground.h"
 #include <box2d/box2d.h>
 
-Ground::Ground(b2World* world, float x, float y, float width, float height) {
+Ground::Ground(b2World& world, float x, float y, float width, float height) {
     //Setup ground for the circle to move / bounce on.
     //Needs to have a body definition and a body. We use a raw pointer for the b2Body as Box2d does the management itself.
     //A body can be defined as having a position, velocity, and mass.

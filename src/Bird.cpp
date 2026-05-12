@@ -1,6 +1,6 @@
 #include "Bird.h"
 
-Bird::Bird(b2World* world, int entityId, float x, float y, float radius, BirdType type, sf::Texture* texture, float density, float gravityScale) : birdType(type) {
+Bird::Bird(b2World& world, int entityId, float x, float y, float radius, BirdType type, sf::Texture& texture, float density, float gravityScale) : birdType(type) {
     b2BodyDef bodyDefinition;
     bodyDefinition.type = b2_dynamicBody;
     bodyDefinition.position.Set(x / Constants::SCALE, y / Constants::SCALE);
