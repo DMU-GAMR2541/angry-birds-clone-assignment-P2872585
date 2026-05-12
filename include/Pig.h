@@ -2,13 +2,17 @@
 #include "Enemy.h"
 class Pig : public Enemy {
 
+protected:
+	sf::Sprite sprite;
+	float radius;
+
 public:
 	Pig() = default;
+	~Pig() override = default;
 
-	Pig(int entityId, b2World* world, int health, float size, b2BodyDef* bodyDef, b2FixtureDef* materialDef) : Enemy(entityId, health, world, new sf::CircleShape(size), bodyDef, materialDef) {
-		// Set green fill colour
-		sprite->setFillColor(sf::Color(0, 255, 0));
-		sprite->setOrigin(size, size); // Set origin to center for proper rotation and positioning
-	}
+	Pig(int entityId, b2World& world, float x, float y, float size, int health, sf::Texture& texture);
 
+	void Render(sf::RenderWindow& window) override;
+
+	void UpdatePhysics() override;
 };

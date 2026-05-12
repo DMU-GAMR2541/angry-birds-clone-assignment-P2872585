@@ -5,13 +5,13 @@ class Enemy : public DynamicObject {
 /// Varaibles that define an enemy.
 /// </summary>
 private:
-    int health;
-    bool b_isDestroyed;
+    int health = 0;
+    bool b_isDestroyed = false;
 
 public:
     //Default constructor for an enemy. 
     Enemy() = default;
-    Enemy(int entityId, int health, b2World* world, sf::Shape* shape, b2BodyDef* bodyDef, b2FixtureDef* materialDef) : health(health), b_isDestroyed(false), DynamicObject(entityId, world, shape, bodyDef, materialDef) {}
+    Enemy(int entityId, int health) : health(health) {}
 
     //Class functions to be tested.
     void takeDamage(int damage) {

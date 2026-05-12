@@ -87,7 +87,7 @@ int main() {
  //   pig.addEntity(&gameObjects);
 
 	sf::Texture birdTexture;
-	if (!birdTexture.loadFromFile("assets/Ang_Birds/RedBird.png")) {
+	if (!birdTexture.loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
 	    std::cout << "Failed to load texture" << std::endl;
 	    return -1;
 	}
