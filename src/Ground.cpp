@@ -7,7 +7,7 @@ Ground::Ground(b2World& world, float x, float y, float width, float height) {
     //A body can be defined as having a position, velocity, and mass.
     b2BodyDef bodyDef;
     bodyDef.position.Set(x / Constants::SCALE, y / Constants::SCALE);
-    b2_body = world->CreateBody(&bodyDef);
+    b2_body = world.CreateBody(&bodyDef);
 
     //Define a fixture shape that relates to the collision for the ground.
     b2PolygonShape box;

@@ -59,6 +59,12 @@ target_link_libraries(${PROJECT_NAME}
     sfml-network
 )
 
+# Copy assets next to the executable
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets)
+
 # --- Unit Tests ---
 #add_executable(RunUnitTests ${HEADERS})
 # Remove a specific file from the list

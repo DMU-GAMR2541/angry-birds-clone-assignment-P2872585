@@ -90,7 +90,11 @@ int main() {
 	birdBodyDef.type = b2_dynamicBody;
 	birdBodyDef.position.Set(10.0f, 0.0f);
 	sf::Texture birdTexture;
-	birdTexture.loadFromFile("assets/Ang_Birds/RedBird.png");
+	if (!birdTexture.loadFromFile("assets/Ang_Birds/RedBird.png")) {
+	    std::cout << "Failed to load texture" << std::endl;
+	    return -1;
+	}
+
 	RedBird bird(world, gameObjects.size() + 1, 10.0f, 0.0f, birdTexture);
 	bird.addEntity(&gameObjects);
 

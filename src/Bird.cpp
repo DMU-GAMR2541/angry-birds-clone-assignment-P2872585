@@ -6,7 +6,7 @@ Bird::Bird(b2World& world, int entityId, float x, float y, float radius, BirdTyp
     bodyDefinition.position.Set(x / Constants::SCALE, y / Constants::SCALE);
     bodyDefinition.gravityScale = gravityScale;
     bodyDefinition.userData.pointer = entityId;
-    body = world->CreateBody(&bodyDefinition);
+    body = world.CreateBody(&bodyDefinition);
 
     b2CircleShape circle;
     circle.m_radius = radius / Constants::SCALE;
@@ -18,18 +18,18 @@ Bird::Bird(b2World& world, int entityId, float x, float y, float radius, BirdTyp
     physicsDefinition.restitution = 0.4f;
     body->CreateFixture(&physicsDefinition);
 
-    sprite.setTexture(*texture);
+    sprite.setTexture(texture);
 
-    const sf::Vector2u size = texture->getSize();
+    const sf::Vector2u size = texture.getSize();
 
     // Set origin to center for proper rotation and positioning
     sprite.setOrigin(size.x / 2.0f, size.y / 2.0f);
 }
 
-void Bird::Render(sf::RenderWindow& window) override {
+void Bird::Render(sf::RenderWindow& window) {
     window.draw(sprite);
 }
 
-void Bird::UpdatePhysics() override {
+void Bird::UpdatePhysics() {
     sprite.setPosition(body->GetPosition().x * Constants::SCALE, body->GetPosition().y * Constants::SCALE);
 }
