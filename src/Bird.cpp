@@ -22,6 +22,11 @@ Bird::Bird(b2World& world, int entityId, float x, float y, float radius, BirdTyp
 
     const sf::Vector2u size = texture.getSize();
 
+    // Make sprite scale match physics radius
+    const float scaleX = (radius * 2.0f) / size.x;
+    const float scaleY = (radius * 2.0f) / size.y;
+    sprite.setScale(scaleX, scaleY);
+
     // Set origin to center for proper rotation and positioning
     sprite.setOrigin(size.x / 2.0f, size.y / 2.0f);
 }

@@ -86,16 +86,13 @@ int main() {
 	//Pig pig(gameObjects.size() + 1, &world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
  //   pig.addEntity(&gameObjects);
 
-    b2BodyDef birdBodyDef;
-	birdBodyDef.type = b2_dynamicBody;
-	birdBodyDef.position.Set(10.0f, 0.0f);
 	sf::Texture birdTexture;
 	if (!birdTexture.loadFromFile("assets/Ang_Birds/RedBird.png")) {
 	    std::cout << "Failed to load texture" << std::endl;
 	    return -1;
 	}
 
-	RedBird bird(world, gameObjects.size() + 1, 10.0f, 0.0f, birdTexture);
+	RedBird bird(world, gameObjects.size() + 1, 10.0f * scale, 0.0f, birdTexture);
 	bird.addEntity(&gameObjects);
 
     // --- 7. MAIN LOOP ---
