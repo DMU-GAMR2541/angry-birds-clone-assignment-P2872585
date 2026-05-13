@@ -52,7 +52,7 @@ Bird* Catapult::onMouseRelease() {
 	Bird* fired = loadedBird.release();
 	// Enable physics now that it's fired
 	fired->getBody()->SetEnabled(true);
-	fired->getBody()->ApplyLinearImpulse(b2Vec2(pullX * 0.35f, pullY * 0.35f), fired->getBody()->GetWorldCenter(), true);
+	fired->getBody()->ApplyLinearImpulse(b2Vec2(pullX * 0.22f, pullY * 0.22f), fired->getBody()->GetWorldCenter(), true);
 
 	// Put a new bird in the catapult
 	loadedBird = createRandomBird();
