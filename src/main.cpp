@@ -36,16 +36,16 @@ int main() {
 	}
 
 	UI pigsUI(font, &gameObjects, 10.0f, 10.0f);
-	gameObjects.push_back(&pigsUI);
+	pigsUI.spawn(&gameObjects);
 
     Ground ground(world, 400.0f, 590.0f, 800.0f, 20.0f);
-    gameObjects.push_back(&ground);
+    ground.spawn(&gameObjects);
 
     Wall wall(world, 750.0f, 500.0f, 20.0f, 160.0f);
-    gameObjects.push_back(&wall);
+    wall.spawn(&gameObjects);
 
     Plank plank(world, 550.0f, 450.0f, 20.0f, 120.0f);
-    gameObjects.push_back(&plank);
+    plank.spawn(&gameObjects);
 
     //Create a ball that is fired when space is pressed. We need to first have a dynamic ball to do it.
     b2BodyDef b2_ballDef;
@@ -73,7 +73,7 @@ int main() {
 	}
 
 	RedBird bird(world, gameObjects.size() + 1, 10.0f * scale, 0.0f, birdTexture);
-	bird.addEntity(&gameObjects);
+	bird.spawn(&gameObjects);
 
 	sf::Texture pigTexture;
 	if (!pigTexture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png")) {
@@ -82,13 +82,13 @@ int main() {
 	}
 
 	SmallPig smallPig(gameObjects.size() + 1, world, 600.0f, 540.0f, pigTexture);
-	smallPig.addEntity(&gameObjects);
+	smallPig.spawn(&gameObjects);
 
 	MediumPig mediumPig(gameObjects.size() + 1, world, 660.0f, 530.0f, pigTexture);
-	mediumPig.addEntity(&gameObjects);
+	mediumPig.spawn(&gameObjects);
 
 	LargePig largePig(gameObjects.size() + 1, world, 720.0f, 520.0f, pigTexture);
-	largePig.addEntity(&gameObjects);
+	largePig.spawn(&gameObjects);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {

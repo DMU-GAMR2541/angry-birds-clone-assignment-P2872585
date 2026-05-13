@@ -15,7 +15,6 @@ void UI::Render(sf::RenderWindow &window) {
         }
     }
 
-    std::cout << "Pigs: " << pigs << std::endl;
     text.setString("Pigs: " + std::to_string(pigs));
     text.setPosition(x, y);
     text.setFont(font);
