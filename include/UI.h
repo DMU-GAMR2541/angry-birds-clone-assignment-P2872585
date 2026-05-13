@@ -13,6 +13,10 @@ private:
 public:
     UI(sf::Font& font, std::vector<GameObject*>* gameObjects, float x, float y);
 
+    void spawn(std::vector<GameObject*>* objects) override {
+        objects->push_back(this);
+    }
+
     void Render(sf::RenderWindow& window) override;
 
     void UpdatePhysics() override;
