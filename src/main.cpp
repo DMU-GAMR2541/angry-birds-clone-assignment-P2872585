@@ -104,6 +104,35 @@ int main() {
             obj->UpdatePhysics();
         }
 
+        // Search for game objects that have been marked for removal
+        for (auto it = gameObjects.begin(); it != gameObjects.end(); ) {
+            DynamicObject* object = dynamic_cast<DynamicObject*>(*it);
+            if (object && object->isRemoved()) {
+                if (object->getBody()) {
+                    // Remove from box2d
+                    world.DestroyBody(object->getBody());
+                }
+
+                // Remove from gameObjects
+                it = gameObjects.erase(it);
+            } else {
+                ++it;
+            }
+        }
+
+        // Since we removed objects marked for removal we need to reset their pointers to what index they are now in the list
+        for (int i = 0; i < gameObjects.size(); ++i) {
+            DynamicObject* dynObject = dynamic_cast<DynamicObject*>(gameObjects[i]);
+            if (dynObject && dynObject->getBody()) {
+                dynObject->getBody()->GetUserData().pointer = i;
+            }
+
+            StaticObject* staticObject = dynamic_cast<StaticObject*>(gameObjects[i]);
+            if (staticObject && staticObject->getBody()) {
+                staticObject->getBody()->GetUserData().pointer = i;
+            }
+        }
+
         //Render all of the content at each frame. Remember you need to clear the screen each iteration or artefacts remain.
         window.clear(sf::Color(135, 206, 235)); // Sky Blue
 
