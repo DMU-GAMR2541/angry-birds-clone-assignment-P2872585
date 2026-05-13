@@ -43,11 +43,8 @@ int main() {
     Ground ground(world, 400.0f, 590.0f, 800.0f, 20.0f);
     ground.spawn(&gameObjects);
 
-    Wall wall(world, 750.0f, 500.0f, 20.0f, 160.0f);
-    wall.spawn(&gameObjects);
-
-    Plank plank(world, 550.0f, 450.0f, 20.0f, 120.0f);
-    plank.spawn(&gameObjects);
+    Wall rightWall(world, 785.0f, 480.0f, 20.0f, 200.0f);
+    rightWall.spawn(&gameObjects);
 
 	std::shared_ptr<sf::Texture> redTex = std::make_shared<sf::Texture>();
 	if (!redTex->loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
@@ -68,14 +65,14 @@ int main() {
 	}
 
 	std::map<BirdType, std::shared_ptr<sf::Texture>> birdTextures = {
-		{BirdType::Red,    redTex},
-		{BirdType::Blue,   blueTex},
+		{BirdType::Red, redTex},
+		{BirdType::Blue, blueTex},
 		{BirdType::Yellow, yellowTex},
-		{BirdType::Black,  redTex},
-		{BirdType::White,  redTex},
+		{BirdType::Black, redTex},
+		{BirdType::White, redTex},
 	};
 
-	Catapult catapult(world, 150.0f, 480.0f, &gameObjects, birdTextures);
+	Catapult catapult(world, 100.0f, 500.0f, &gameObjects, birdTextures);
 	catapult.spawn(&gameObjects);
 
 	sf::Texture pigTexture;
@@ -84,14 +81,36 @@ int main() {
 	    return -1;
 	}
 
-	SmallPig smallPig(world, 600.0f, 540.0f, pigTexture);
-	smallPig.spawn(&gameObjects);
+	// Structure 1
+	Plank s1LeftPost(world, 380.0f, 530.0f, 20.0f, 100.0f);
+	s1LeftPost.spawn(&gameObjects);
+	Plank s1RightPost(world, 440.0f, 530.0f, 20.0f, 100.0f);
+	s1RightPost.spawn(&gameObjects);
+	Plank s1Roof(world, 410.0f, 472.0f, 80.0f, 15.0f);
+	s1Roof.spawn(&gameObjects);
+	SmallPig s1Pig(world, 410.0f, 447.0f, pigTexture);
+	s1Pig.spawn(&gameObjects);
 
-	MediumPig mediumPig(world, 660.0f, 530.0f, pigTexture);
-	mediumPig.spawn(&gameObjects);
+	// Structure 2
+	Plank s2Wall(world, 540.0f, 510.0f, 20.0f, 140.0f);
+	s2Wall.spawn(&gameObjects);
+	MediumPig s2Pig(world, 580.0f, 554.0f, pigTexture);
+	s2Pig.spawn(&gameObjects);
 
-	LargePig largePig(world, 720.0f, 520.0f, pigTexture);
-	largePig.spawn(&gameObjects);
+	// Structure 3
+	Plank s3LeftWall(world, 650.0f, 520.0f, 20.0f, 120.0f);
+	s3LeftWall.spawn(&gameObjects);
+	Plank s3RightWall(world, 710.0f, 520.0f, 20.0f, 120.0f);
+	s3RightWall.spawn(&gameObjects);
+	Plank s3Roof(world, 680.0f, 452.0f, 80.0f, 15.0f);
+	s3Roof.spawn(&gameObjects);
+	LargePig s3Pig(world, 680.0f, 544.0f, pigTexture);
+	s3Pig.spawn(&gameObjects);
+
+	Plank s3TopBlock(world, 680.0f, 437.0f, 30.0f, 15.0f);
+	s3TopBlock.spawn(&gameObjects);
+	SmallPig s3TopPig(world, 680.0f, 411.0f, pigTexture);
+	s3TopPig.spawn(&gameObjects);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
