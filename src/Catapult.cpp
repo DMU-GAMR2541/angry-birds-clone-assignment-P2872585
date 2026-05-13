@@ -73,19 +73,19 @@ std::unique_ptr<Bird> Catapult::createRandomBird() {
 	std::unique_ptr<Bird> bird;
 	switch (type) {
 		case BirdType::Red:
-			bird = std::make_unique<RedBird>(*world, 0, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::Blue:
-			bird = std::make_unique<RedBird>(*world, 0, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::Yellow:
-			bird = std::make_unique<RedBird>(*world, 0, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::Black:
-			bird = std::make_unique<RedBird>(*world, 0, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::White:
-			bird = std::make_unique<RedBird>(*world, 0, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 	}
 

@@ -52,13 +52,13 @@ int main() {
 	    return -1;
 	}
 
-	SmallPig smallPig(gameObjects.size() + 1, world, 600.0f, 540.0f, pigTexture);
+	SmallPig smallPig(world, 600.0f, 540.0f, pigTexture);
 	smallPig.spawn(&gameObjects);
 
-	MediumPig mediumPig(gameObjects.size() + 1, world, 660.0f, 530.0f, pigTexture);
+	MediumPig mediumPig(world, 660.0f, 530.0f, pigTexture);
 	mediumPig.spawn(&gameObjects);
 
-	LargePig largePig(gameObjects.size() + 1, world, 720.0f, 520.0f, pigTexture);
+	LargePig largePig(world, 720.0f, 520.0f, pigTexture);
 	largePig.spawn(&gameObjects);
 
     // --- 7. MAIN LOOP ---

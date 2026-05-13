@@ -1,6 +1,6 @@
 #include "RedBird.h"
 
-RedBird::RedBird(b2World& world, int entityId, float x, float y, sf::Texture& texture) : Bird(world, entityId, x, y, 22.0f, BirdType::Red, texture, 1.0f, 1.0f) {
+RedBird::RedBird(b2World& world, float x, float y, sf::Texture& texture) : Bird(world, x, y, 22.0f, BirdType::Red, texture, 1.0f, 1.0f) {
 
 }
 

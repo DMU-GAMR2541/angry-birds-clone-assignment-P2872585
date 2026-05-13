@@ -1,10 +1,9 @@
 #include "Pig.h"
 
-Pig::Pig(int entityId, b2World& world, float x, float y, float radius, int health, sf::Texture& texture) : Enemy(entityId, health), radius(radius) {
+Pig::Pig(b2World& world, float x, float y, float radius, int health, sf::Texture& texture) : Enemy(health), radius(radius) {
     b2BodyDef bodyDefinition;
     bodyDefinition.type = b2_dynamicBody;
     bodyDefinition.position.Set(x / Constants::SCALE, y / Constants::SCALE);
-    bodyDefinition.userData.pointer = entityId;
     body = world.CreateBody(&bodyDefinition);
 
     b2CircleShape circle;

@@ -10,7 +10,7 @@ public:
 	Pig() = default;
 	~Pig() override = default;
 
-	Pig(int entityId, b2World& world, float x, float y, float size, int health, sf::Texture& texture);
+	Pig(b2World& world, float x, float y, float size, int health, sf::Texture& texture);
 
 	void Render(sf::RenderWindow& window) override;
 
