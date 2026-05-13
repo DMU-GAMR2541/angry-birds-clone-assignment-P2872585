@@ -2,11 +2,11 @@
 #include "GameObject.h"
 #include <box2d/box2d.h>
 
-class DynamicObject : public GameObject {
+class DynamicObject : virtual public GameObject {
 
 protected:
 	b2Body* body;
-	bool markRemoved;
+	bool markRemoved = false;
 
 public:
 	DynamicObject() = default;

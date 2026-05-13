@@ -10,6 +10,7 @@
 #include "SmallPig.h"
 #include "MediumPig.h"
 #include "LargePig.h"
+#include "UI.h"
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -27,6 +28,15 @@ int main() {
 
 	ContactListener contactListener = ContactListener(&gameObjects);
 	world.SetContactListener(&contactListener);
+
+	sf::Font font;
+	if (!font.loadFromFile("assets/fonts/angry-birds.ttf")) {
+		std::cout << "Failed to load font" << std::endl;
+		return -1;
+	}
+
+	UI pigsUI(font, &gameObjects, 10.0f, 10.0f);
+	gameObjects.push_back(&pigsUI);
 
     Ground ground(world, 400.0f, 590.0f, 800.0f, 20.0f);
     gameObjects.push_back(&ground);

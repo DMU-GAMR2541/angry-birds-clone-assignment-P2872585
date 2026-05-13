@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include <box2d/box2d.h>
 
-class StaticObject : public GameObject {
+class StaticObject : virtual public GameObject {
 protected:
     b2Body* b2_body;
 
