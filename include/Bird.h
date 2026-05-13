@@ -13,6 +13,7 @@ class Bird : public DynamicObject {
 protected:
 	BirdType birdType;
 	sf::Sprite sprite;
+	bool usedAbility = false;
 
 	Bird(b2World& world, float x, float y, float radius, BirdType type, sf::Texture& texture, float density, float gravityScale);
 
@@ -22,6 +23,10 @@ public:
 
 	BirdType getBirdType() const {
 		return birdType;
+	}
+
+	bool hasUsedAbility() const {
+		return usedAbility;
 	}
 
 	void Render(sf::RenderWindow& window) override;

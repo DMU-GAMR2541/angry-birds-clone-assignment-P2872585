@@ -10,6 +10,7 @@
 #include "LargePig.h"
 #include "UI.h"
 #include "Catapult.h"
+#include "Bird.h"
 #include "SFML/Audio/Music.hpp"
 
 int main() {
@@ -136,6 +137,14 @@ int main() {
 
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 catapult.onMousePress(event.mouseButton.x, event.mouseButton.y);
+
+                // Trigger special ability on any in-flight bird
+                for (GameObject* obj : gameObjects) {
+                    Bird* bird = dynamic_cast<Bird*>(obj);
+                    if (bird && bird->getBody() && bird->getBody()->IsEnabled() && !bird->hasUsedAbility()) {
+                        bird->activateSpecialAbility();
+                    }
+                }
             }
 
             if (event.type == sf::Event::MouseMoved && catapult.isDragging()) {
