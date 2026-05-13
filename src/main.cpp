@@ -7,6 +7,9 @@
 #include "Ground.h"
 #include "Wall.h"
 #include "Plank.h"
+#include "SmallPig.h"
+#include "MediumPig.h"
+#include "LargePig.h"
 
 int main() {
     // --- 1. WINDOW SETUP ---
@@ -53,12 +56,6 @@ int main() {
     sf_ballVisual.setOrigin(15.0f, 15.0f);
     sf_ballVisual.setFillColor(sf::Color::Yellow);
 
- //   b2BodyDef pigBodyDef;
- //   pigBodyDef.type = b2_dynamicBody;
- //   pigBodyDef.position.Set(0.0f, 0.0f);
-	//Pig pig(gameObjects.size() + 1, &world, 100, 15.0f, &pigBodyDef, &b2_ballFixture);
- //   pig.addEntity(&gameObjects);
-
 	sf::Texture birdTexture;
 	if (!birdTexture.loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
 	    std::cout << "Failed to load texture" << std::endl;
@@ -67,6 +64,21 @@ int main() {
 
 	RedBird bird(world, gameObjects.size() + 1, 10.0f * scale, 0.0f, birdTexture);
 	bird.addEntity(&gameObjects);
+
+	sf::Texture pigTexture;
+	if (!pigTexture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png")) {
+	    std::cout << "Failed to load texture" << std::endl;
+	    return -1;
+	}
+
+	SmallPig smallPig(gameObjects.size() + 1, world, 600.0f, 540.0f, pigTexture);
+	smallPig.addEntity(&gameObjects);
+
+	MediumPig mediumPig(gameObjects.size() + 1, world, 660.0f, 530.0f, pigTexture);
+	mediumPig.addEntity(&gameObjects);
+
+	LargePig largePig(gameObjects.size() + 1, world, 720.0f, 520.0f, pigTexture);
+	largePig.addEntity(&gameObjects);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
