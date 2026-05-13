@@ -1,5 +1,35 @@
 #pragma once
+#include <memory>
+#include <SFML/Graphics.hpp>
 #include "DynamicObject.h"
-class Catapult : DynamicObject {
+#include "Bird.h"
 
+class Catapult : public DynamicObject {
+
+private:
+	std::unique_ptr<Bird> loadedBird;
+	bool dragging = false;
+	sf::Vector2f pullPosition;
+	sf::RectangleShape shape;
+	b2World* world;
+	std::vector<GameObject*>* gameObjects;
+
+	std::unique_ptr<Bird> createRandomBird();
+
+public:
+	Catapult() = default;
+	~Catapult() override = default;
+	Catapult(b2World& world, float x, float y, std::vector<GameObject*>* gameObjects);
+
+	bool isDragging() {
+		return dragging;
+	}
+
+	void onMousePress(float x, float y);
+	void onMouseDrag(float x, float y);
+
+	Bird* onMouseRelease();
+
+	void Render(sf::RenderWindow& window) override;
+	void UpdatePhysics() override;
 };

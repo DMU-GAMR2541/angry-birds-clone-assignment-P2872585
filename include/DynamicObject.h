@@ -20,6 +20,10 @@ public:
 		gameObjects->push_back(this);
 	}
 
+	b2Body* getBody() const {
+		return body;
+	}
+
 	b2Vec2 getPosition() const {
 		return body->GetPosition();
 	}
