@@ -49,7 +49,33 @@ int main() {
     Plank plank(world, 550.0f, 450.0f, 20.0f, 120.0f);
     plank.spawn(&gameObjects);
 
-	Catapult catapult(world, 150.0f, 480.0f, &gameObjects);
+	std::shared_ptr<sf::Texture> redTex = std::make_shared<sf::Texture>();
+	if (!redTex->loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
+		std::cout << "Failed to load red bird texture" << std::endl;
+		return -1;
+	}
+
+	std::shared_ptr<sf::Texture> blueTex = std::make_shared<sf::Texture>();
+	if (!blueTex->loadFromFile("assets/Ang_Birds/angry-birds-png-46169.png")) {
+		std::cout << "Failed to load blue bird texture" << std::endl;
+		return -1;
+	}
+
+	std::shared_ptr<sf::Texture> yellowTex = std::make_shared<sf::Texture>();
+	if (!yellowTex->loadFromFile("assets/Ang_Birds/angry-birds-png-46179.png")) {
+		std::cout << "Failed to load yellow bird texture" << std::endl;
+		return -1;
+	}
+
+	std::map<BirdType, std::shared_ptr<sf::Texture>> birdTextures = {
+		{BirdType::Red,    redTex},
+		{BirdType::Blue,   blueTex},
+		{BirdType::Yellow, yellowTex},
+		{BirdType::Black,  redTex},
+		{BirdType::White,  redTex},
+	};
+
+	Catapult catapult(world, 150.0f, 480.0f, &gameObjects, birdTextures);
 	catapult.spawn(&gameObjects);
 
 	sf::Texture pigTexture;

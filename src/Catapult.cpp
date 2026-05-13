@@ -1,10 +1,11 @@
 #include "Catapult.h"
 #include <cmath>
-#include <iostream>
 #include <random>
 #include "RedBird.h"
+#include "YellowBird.h"
 
-Catapult::Catapult(b2World& world, float x, float y, std::vector<GameObject*>* gameObjects) : world(&world), gameObjects(gameObjects) {
+Catapult::Catapult(b2World& world, float x, float y, std::vector<GameObject*>* gameObjects, std::map<BirdType, std::shared_ptr<sf::Texture>>& birdTextures)
+	: world(&world), gameObjects(gameObjects), birdTextures(&birdTextures) {
 	shape.setSize(sf::Vector2f(20.0f, 80.0f));
 	shape.setOrigin(10.0f, 0.0f);
 	shape.setPosition(x, y);
@@ -61,12 +62,7 @@ Bird* Catapult::onMouseRelease() {
 std::unique_ptr<Bird> Catapult::createRandomBird() {
 	// Generate a random bird from the BirdType enum
 	BirdType type = static_cast<BirdType>(rand() % 4);
-
-	// TODO move texture somewhere else
-	sf::Texture birdTexture;
-	if (!birdTexture.loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
-		std::cout << "Failed to load texture" << std::endl;
-	}
+	sf::Texture& birdTexture = *birdTextures->at(type);
 
 	float spawnX = shape.getPosition().x;
 	float spawnY = shape.getPosition().y;
@@ -79,7 +75,7 @@ std::unique_ptr<Bird> Catapult::createRandomBird() {
 			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::Yellow:
-			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<YellowBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::Black:
 			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
