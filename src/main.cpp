@@ -10,12 +10,18 @@
 #include "LargePig.h"
 #include "UI.h"
 #include "Catapult.h"
+#include "SFML/Audio/Music.hpp"
 
 int main() {
     // --- 1. WINDOW SETUP ---
     sf::RenderWindow window(sf::VideoMode(800, 600), "Annoyed_Flocks");
     window.setFramerateLimit(60);
-    
+
+    sf::Music music;
+    music.openFromFile("assets/sounds/Theme.flac");
+    music.setLoop(true);
+    music.play();
+
     //setup world.
     b2Vec2 b2_gravity(0.0f, 9.8f); // Earth-like gravity
     b2World world(b2_gravity);
