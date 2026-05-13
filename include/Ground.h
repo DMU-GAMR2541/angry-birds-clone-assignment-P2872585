@@ -16,6 +16,6 @@ public:
 
     void UpdatePhysics() override {
         //Static objects usually don't move, but we set the position once.
-        shape.setPosition(b2_body->GetPosition().x * Constants::SCALE, b2_body->GetPosition().y * Constants::SCALE);
+        shape.setPosition(body->GetPosition().x * Constants::SCALE, body->GetPosition().y * Constants::SCALE);
     }
 };

@@ -17,7 +17,7 @@ public:
 			body->GetUserData().pointer = gameObjects->size();
 		}
 
-		GameObject::spawn(gameObjects);
+		gameObjects->push_back(this);
 	}
 
 	b2Vec2 getPosition() const {

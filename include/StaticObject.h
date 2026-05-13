@@ -4,11 +4,19 @@
 
 class StaticObject : virtual public GameObject {
 protected:
-    b2Body* b2_body;
+    b2Body* body = nullptr;
 
 public:
     StaticObject() = default;
     ~StaticObject() override = default;
 
-    b2Body* getBody() const { return b2_body; }
+    void spawn(std::vector<GameObject*>* gameObjects) override {
+        if (body) {
+            body->GetUserData().pointer = gameObjects->size();
+        }
+
+        gameObjects->push_back(this);
+    }
+
+    b2Body* getBody() const { return body; }
 };
