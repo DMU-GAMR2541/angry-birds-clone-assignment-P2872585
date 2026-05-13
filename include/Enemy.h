@@ -6,7 +6,6 @@ class Enemy : public DynamicObject {
 /// </summary>
 private:
     int health = 0;
-    bool b_isDestroyed = false;
 
 public:
     //Default constructor for an enemy. 
@@ -20,11 +19,11 @@ public:
         health -= damage;
         if (health <= 0) {
             health = 0;
-            b_isDestroyed = true;
+            markRemoved = true;
         }
     }
 
-    int getHealth() const { return health; }
-    bool checkIfPopped() const { return b_isDestroyed; }
-
+    int getHealth() const {
+        return health;
+    }
 };

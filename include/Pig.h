@@ -15,4 +15,8 @@ public:
 	void Render(sf::RenderWindow& window) override;
 
 	void UpdatePhysics() override;
+
+	bool checkIfPopped() const {
+		return markRemoved;
+	}
 };
