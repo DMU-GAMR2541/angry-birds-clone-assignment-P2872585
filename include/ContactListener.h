@@ -48,9 +48,4 @@ public:
             std::cout << "Collision between unknown game objects" << std::endl;
         }
     }
-
-    // Called when two fixtures cease to touch
-    void EndContact(b2Contact* contact) override {
-        std::cout << "Collision Ended" << std::endl;
-    }
 };
