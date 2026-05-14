@@ -1,7 +1,7 @@
-#include "Plank.h"
+#include "Stone.h"
 #include <box2d/box2d.h>
 
-Plank::Plank(b2World& world, float x, float y, float width, float height, sf::Texture& texture) {
+Stone::Stone(b2World& world, float x, float y, float width, float height, sf::Texture& texture) {
     //Rather than having an immovable wall, we can use the dynamic body type to create one that can have velocity etc.
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
@@ -13,12 +13,12 @@ Plank::Plank(b2World& world, float x, float y, float width, float height, sf::Te
 
     b2FixtureDef fixture;
     fixture.shape = &box;
-    fixture.density = 1.5f;   // Light wood
-    fixture.friction = 0.3f;
+    fixture.density = 4.0f; // Stone
+    fixture.friction = 0.6f;
     body->CreateFixture(&fixture);
 
     shape.setSize(sf::Vector2f(width, height));
     shape.setOrigin(width * 0.5f, height * 0.5f);
     shape.setTexture(&texture);
-    shape.setTextureRect(sf::IntRect(517, 614, 199, 19));
+    shape.setTextureRect(sf::IntRect(721, 658, 199, 19));
 }

@@ -2,13 +2,13 @@
 #include "DynamicObject.h"
 #include <SFML/Graphics.hpp>
 
-class Plank : public DynamicObject {
+class Stone : public DynamicObject {
 private:
     sf::RectangleShape shape;
 public:
-	Plank() = default;
-	~Plank() override = default;
-    Plank(b2World& world, float x, float y, float width, float height, sf::Texture& texture);
+	Stone() = default;
+	~Stone() override = default;
+    Stone(b2World& world, float x, float y, float width, float height, sf::Texture& texture);
 
     void Render(sf::RenderWindow& window) override {
         window.draw(shape);

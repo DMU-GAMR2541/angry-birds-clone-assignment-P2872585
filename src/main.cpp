@@ -5,6 +5,7 @@
 #include "Ground.h"
 #include "Wall.h"
 #include "Plank.h"
+#include "Stone.h"
 #include "SmallPig.h"
 #include "MediumPig.h"
 #include "LargePig.h"
@@ -85,33 +86,39 @@ int main() {
 	    return -1;
 	}
 
+	sf::Texture blocksTexture;
+	if (!blocksTexture.loadFromFile("assets/Ang_Birds/angry-birds-blocks.png")) {
+	    std::cout << "Failed to load blocks texture" << std::endl;
+	    return -1;
+	}
+
 	// Structure 1 - Watchtower
-	Plank s1LeftPost(world, 240.0f, 545.0f, 15.0f, 70.0f);
+	Plank s1LeftPost(world, 240.0f, 545.0f, 15.0f, 70.0f, blocksTexture);
 	s1LeftPost.spawn(&gameObjects);
-	Plank s1RightPost(world, 280.0f, 545.0f, 15.0f, 70.0f);
+	Plank s1RightPost(world, 280.0f, 545.0f, 15.0f, 70.0f, blocksTexture);
 	s1RightPost.spawn(&gameObjects);
-	Plank s1Roof(world, 260.0f, 502.0f, 55.0f, 10.0f);
+	Stone s1Roof(world, 260.0f, 502.0f, 55.0f, 10.0f, blocksTexture);
 	s1Roof.spawn(&gameObjects);
 	SmallPig s1Pig(world, 260.0f, 483.0f, pigTexture);
 	s1Pig.spawn(&gameObjects);
 
 	// Structure 2 - Wall blockade
-	Plank s2Wall(world, 460.0f, 525.0f, 15.0f, 110.0f);
+	Stone s2Wall(world, 460.0f, 525.0f, 15.0f, 110.0f, blocksTexture);
 	s2Wall.spawn(&gameObjects);
 	MediumPig s2Pig(world, 495.0f, 560.0f, pigTexture);
 	s2Pig.spawn(&gameObjects);
 
 	// Structure 3 - Fortress
-	Plank s3LeftWall(world, 620.0f, 530.0f, 15.0f, 100.0f);
+	Stone s3LeftWall(world, 620.0f, 530.0f, 15.0f, 100.0f, blocksTexture);
 	s3LeftWall.spawn(&gameObjects);
-	Plank s3RightWall(world, 680.0f, 530.0f, 15.0f, 100.0f);
+	Stone s3RightWall(world, 680.0f, 530.0f, 15.0f, 100.0f, blocksTexture);
 	s3RightWall.spawn(&gameObjects);
-	Plank s3Roof(world, 650.0f, 475.0f, 75.0f, 10.0f);
+	Plank s3Roof(world, 650.0f, 475.0f, 75.0f, 10.0f, blocksTexture);
 	s3Roof.spawn(&gameObjects);
 	LargePig s3Pig(world, 650.0f, 552.0f, pigTexture);
 	s3Pig.spawn(&gameObjects);
 
-	Plank s3TopBlock(world, 650.0f, 460.0f, 25.0f, 10.0f);
+	Plank s3TopBlock(world, 650.0f, 460.0f, 25.0f, 10.0f, blocksTexture);
 	s3TopBlock.spawn(&gameObjects);
 	SmallPig s3TopPig(world, 650.0f, 441.0f, pigTexture);
 	s3TopPig.spawn(&gameObjects);
@@ -119,11 +126,11 @@ int main() {
 	// Island 1 - Mid-height with small fort
 	Ground island1(world, 360.0f, 415.0f, 70.0f, 8.0f);
 	island1.spawn(&gameObjects);
-	Plank i1LeftPost(world, 340.0f, 388.0f, 8.0f, 40.0f);
+	Plank i1LeftPost(world, 340.0f, 388.0f, 8.0f, 40.0f, blocksTexture);
 	i1LeftPost.spawn(&gameObjects);
-	Plank i1RightPost(world, 380.0f, 388.0f, 8.0f, 40.0f);
+	Plank i1RightPost(world, 380.0f, 388.0f, 8.0f, 40.0f, blocksTexture);
 	i1RightPost.spawn(&gameObjects);
-	Plank i1Roof(world, 360.0f, 360.0f, 48.0f, 8.0f);
+	Plank i1Roof(world, 360.0f, 360.0f, 48.0f, 8.0f, blocksTexture);
 	i1Roof.spawn(&gameObjects);
 	SmallPig i1Pig(world, 360.0f, 397.0f, pigTexture);
 	i1Pig.spawn(&gameObjects);
