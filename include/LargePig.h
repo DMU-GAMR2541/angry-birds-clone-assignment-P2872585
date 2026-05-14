@@ -6,5 +6,5 @@ public:
 	LargePig() = default;
 	~LargePig() override = default;
 
-	LargePig(b2World& world, float x, float y, sf::Texture& texture) : Pig(world, x, y, 36.0f, 240, texture) {}
+	LargePig(b2World& world, float x, float y, sf::Texture& texture) : Pig(world, x, y, 28.0f, 240, texture) {}
 };

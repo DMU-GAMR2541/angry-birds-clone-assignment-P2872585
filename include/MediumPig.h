@@ -6,5 +6,5 @@ public:
 	MediumPig() = default;
 	~MediumPig() override = default;
 
-	MediumPig(b2World& world, float x, float y, sf::Texture& texture) : Pig(world, x, y, 26.0f, 80, texture) {}
+	MediumPig(b2World& world, float x, float y, sf::Texture& texture) : Pig(world, x, y, 20.0f, 80, texture) {}
 };

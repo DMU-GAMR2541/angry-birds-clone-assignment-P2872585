@@ -85,36 +85,54 @@ int main() {
 	    return -1;
 	}
 
-	// Structure 1
-	Plank s1LeftPost(world, 380.0f, 530.0f, 20.0f, 100.0f);
+	// Structure 1 - Watchtower
+	Plank s1LeftPost(world, 240.0f, 545.0f, 15.0f, 70.0f);
 	s1LeftPost.spawn(&gameObjects);
-	Plank s1RightPost(world, 440.0f, 530.0f, 20.0f, 100.0f);
+	Plank s1RightPost(world, 280.0f, 545.0f, 15.0f, 70.0f);
 	s1RightPost.spawn(&gameObjects);
-	Plank s1Roof(world, 410.0f, 472.0f, 80.0f, 15.0f);
+	Plank s1Roof(world, 260.0f, 502.0f, 55.0f, 10.0f);
 	s1Roof.spawn(&gameObjects);
-	SmallPig s1Pig(world, 410.0f, 447.0f, pigTexture);
+	SmallPig s1Pig(world, 260.0f, 483.0f, pigTexture);
 	s1Pig.spawn(&gameObjects);
 
-	// Structure 2
-	Plank s2Wall(world, 540.0f, 510.0f, 20.0f, 140.0f);
+	// Structure 2 - Wall blockade
+	Plank s2Wall(world, 460.0f, 525.0f, 15.0f, 110.0f);
 	s2Wall.spawn(&gameObjects);
-	MediumPig s2Pig(world, 580.0f, 554.0f, pigTexture);
+	MediumPig s2Pig(world, 495.0f, 560.0f, pigTexture);
 	s2Pig.spawn(&gameObjects);
 
-	// Structure 3
-	Plank s3LeftWall(world, 650.0f, 520.0f, 20.0f, 120.0f);
+	// Structure 3 - Fortress
+	Plank s3LeftWall(world, 620.0f, 530.0f, 15.0f, 100.0f);
 	s3LeftWall.spawn(&gameObjects);
-	Plank s3RightWall(world, 710.0f, 520.0f, 20.0f, 120.0f);
+	Plank s3RightWall(world, 680.0f, 530.0f, 15.0f, 100.0f);
 	s3RightWall.spawn(&gameObjects);
-	Plank s3Roof(world, 680.0f, 452.0f, 80.0f, 15.0f);
+	Plank s3Roof(world, 650.0f, 475.0f, 75.0f, 10.0f);
 	s3Roof.spawn(&gameObjects);
-	LargePig s3Pig(world, 680.0f, 544.0f, pigTexture);
+	LargePig s3Pig(world, 650.0f, 552.0f, pigTexture);
 	s3Pig.spawn(&gameObjects);
 
-	Plank s3TopBlock(world, 680.0f, 437.0f, 30.0f, 15.0f);
+	Plank s3TopBlock(world, 650.0f, 460.0f, 25.0f, 10.0f);
 	s3TopBlock.spawn(&gameObjects);
-	SmallPig s3TopPig(world, 680.0f, 411.0f, pigTexture);
+	SmallPig s3TopPig(world, 650.0f, 441.0f, pigTexture);
 	s3TopPig.spawn(&gameObjects);
+
+	// Island 1 - Mid-height with small fort
+	Ground island1(world, 360.0f, 415.0f, 70.0f, 8.0f);
+	island1.spawn(&gameObjects);
+	Plank i1LeftPost(world, 340.0f, 388.0f, 8.0f, 40.0f);
+	i1LeftPost.spawn(&gameObjects);
+	Plank i1RightPost(world, 380.0f, 388.0f, 8.0f, 40.0f);
+	i1RightPost.spawn(&gameObjects);
+	Plank i1Roof(world, 360.0f, 360.0f, 48.0f, 8.0f);
+	i1Roof.spawn(&gameObjects);
+	SmallPig i1Pig(world, 360.0f, 397.0f, pigTexture);
+	i1Pig.spawn(&gameObjects);
+
+	// Island 2 - High floating platform
+	Ground island2(world, 540.0f, 315.0f, 60.0f, 8.0f);
+	island2.spawn(&gameObjects);
+	SmallPig i2Pig(world, 540.0f, 297.0f, pigTexture);
+	i2Pig.spawn(&gameObjects);
 
     // --- 7. MAIN LOOP ---
     while (window.isOpen()) {
