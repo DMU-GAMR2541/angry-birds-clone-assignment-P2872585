@@ -16,23 +16,6 @@ public:
         this->gameObjects = gameObjects;
     }
 
-    // Called when two fixtures begin to touch
-    void BeginContact(b2Contact* contact) override {
-        // Get the two fixtures involved
-        // b2Fixture* fixtureA = contact->GetFixtureA();
-        // b2Fixture* fixtureB = contact->GetFixtureB();
-        //
-        // try {
-        //     GameObject* obj1 = gameObjects->at(fixtureA->GetBody()->GetUserData().pointer);
-        //     GameObject* obj2 = gameObjects->at(fixtureB->GetBody()->GetUserData().pointer);
-        //     std::cout << "Collision Detected between Object " << fixtureA->GetBody()->GetUserData().pointer
-        //         << " and Object " << fixtureB->GetBody()->GetUserData().pointer << std::endl;
-        // }
-        // catch (const std::out_of_range& e) {
-        //     std::cout << "Collision between unknown game objects";
-        // }
-    }
-
     // PostSolve gives us impulse so we can see how hard the pig got hit
     void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override {
         float totalImpulse = 0.0f;

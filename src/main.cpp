@@ -120,21 +120,6 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            // INPUT HANDLING: Press SPACE to launch
-            // if (event.type == sf::Event::KeyPressed) {
-            //     if (event.key.code == sf::Keyboard::Space) {
-            //         // Reset position of the ball so that it can be fired again from its original poisition.
-            //         b2_ballBody->SetTransform(b2Vec2(100.0f / scale, 500.0f / scale), 0);
-            //         b2_ballBody->SetLinearVelocity(b2Vec2(0, 0));
-            //         b2_ballBody->SetAngularVelocity(0);
-            //
-            //         // Apply impulse (X-axis, Y-axis) Negative Y is UP in Box2D because gravity is positive.
-            //         b2_ballBody->ApplyLinearImpulse(b2Vec2(5.0f, -5.0f), b2_ballBody->GetWorldCenter(), true);
-            //
-            //         std::cout << "Firing!!!!" << std::endl;
-            //     }
-            // }
-
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
                 catapult.onMousePress(event.mouseButton.x, event.mouseButton.y);
 

@@ -5,6 +5,5 @@ RedBird::RedBird(b2World& world, float x, float y, sf::Texture& texture) : Bird(
 }
 
 bool RedBird::activateSpecialAbility() {
-	// TODO
 	return false;
 }
