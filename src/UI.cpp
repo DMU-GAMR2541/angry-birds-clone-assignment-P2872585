@@ -15,10 +15,23 @@ void UI::Render(sf::RenderWindow &window) {
         }
     }
 
-    text.setString("Pigs: " + std::to_string(pigs));
-    text.setPosition(x, y);
+    if (pigs == 0) {
+        sf::Vector2 windowSize = window.getSize();
+        sf::FloatRect textRect = text.getLocalBounds();
+        text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+        text.setPosition(sf::Vector2f(windowSize.x / 2.0f, windowSize.y / 2.0f));
+        text.setString("You win!");
+        text.setCharacterSize(50);
+        text.setFillColor(sf::Color::Green);
+        text.setOutlineColor(sf::Color::Black);
+        text.setOutlineThickness(2.0f);
+    } else {
+        text.setString("Pigs: " + std::to_string(pigs));
+        text.setPosition(x, y);
+        text.setCharacterSize(24);
+    }
+
     text.setFont(font);
-    text.setCharacterSize(24);
     window.draw(text);
 }
 
