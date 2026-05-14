@@ -44,7 +44,10 @@ int main() {
     Ground ground(world, 400.0f, 590.0f, 800.0f, 20.0f);
     ground.spawn(&gameObjects);
 
-    Wall rightWall(world, 785.0f, 480.0f, 20.0f, 200.0f);
+    Wall leftWall(world, -10.0f, 480.0f, 20.0f, 200.0f);
+    leftWall.spawn(&gameObjects);
+
+    Wall rightWall(world, 810.0f, 480.0f, 20.0f, 200.0f);
     rightWall.spawn(&gameObjects);
 
 	std::shared_ptr<sf::Texture> redTex = std::make_shared<sf::Texture>();
