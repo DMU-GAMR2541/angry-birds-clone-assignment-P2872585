@@ -3,6 +3,7 @@
 #include <random>
 #include "RedBird.h"
 #include "YellowBird.h"
+#include "BlueBird.h"
 
 Catapult::Catapult(b2World& world, float x, float y, std::vector<GameObject*>* gameObjects, std::map<BirdType, std::shared_ptr<sf::Texture>>& birdTextures)
 	: world(&world), gameObjects(gameObjects), birdTextures(&birdTextures) {
@@ -72,7 +73,7 @@ std::unique_ptr<Bird> Catapult::createRandomBird() {
 			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
 			break;
 		case BirdType::Blue:
-			bird = std::make_unique<RedBird>(*world, spawnX, spawnY, birdTexture);
+			bird = std::make_unique<BlueBird>(*world, spawnX, spawnY, birdTexture, gameObjects);
 			break;
 		case BirdType::Yellow:
 			bird = std::make_unique<YellowBird>(*world, spawnX, spawnY, birdTexture);

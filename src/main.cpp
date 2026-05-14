@@ -139,8 +139,9 @@ int main() {
                 catapult.onMousePress(event.mouseButton.x, event.mouseButton.y);
 
                 // Trigger special ability on any in-flight bird
-                for (GameObject* obj : gameObjects) {
-                    Bird* bird = dynamic_cast<Bird*>(obj);
+                int size = gameObjects.size();
+                for (int i = 0; i < size; ++i) {
+                    Bird* bird = dynamic_cast<Bird*>(gameObjects[i]);
                     if (bird && bird->getBody() && bird->getBody()->IsEnabled() && !bird->hasUsedAbility()) {
                         bird->activateSpecialAbility();
                     }
