@@ -23,7 +23,9 @@ public:
             totalImpulse += impulse->normalImpulses[i];
         }
 
-        int damage = totalImpulse * 5.0f;
+        if (totalImpulse < 0.75) return;
+
+        int damage = totalImpulse * 2.3f;
 
         try {
             GameObject* obj1 = gameObjects->at(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
