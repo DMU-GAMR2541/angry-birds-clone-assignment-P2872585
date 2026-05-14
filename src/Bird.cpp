@@ -37,4 +37,9 @@ void Bird::Render(sf::RenderWindow& window) {
 void Bird::UpdatePhysics() {
     sprite.setPosition(body->GetPosition().x * Constants::SCALE, body->GetPosition().y * Constants::SCALE);
     sprite.setRotation(body->GetAngle() * 180.0f / Constants::PI);
+
+    // Mark as removed if velocity is too low
+    if (body->GetLinearVelocity().Length() < 0.1f && body->IsEnabled()) {
+        remove();
+    }
 }
