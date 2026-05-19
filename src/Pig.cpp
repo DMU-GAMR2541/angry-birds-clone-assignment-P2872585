@@ -1,10 +1,14 @@
 #include "Pig.h"
+#include <iostream>
 
 Pig::Pig(b2World& world, float x, float y, float radius, int health, sf::Texture& texture) : Enemy(health), radius(radius) {
     b2BodyDef bodyDefinition;
     bodyDefinition.type = b2_dynamicBody;
     bodyDefinition.position.Set(x / Constants::SCALE, y / Constants::SCALE);
+	std::cout << "Creating pig at (" << bodyDefinition.position.x << ", " << bodyDefinition.position.y << ")" << std::endl;
     body = world.CreateBody(&bodyDefinition);
+
+	std::cout << "Pig body created at (" << body->GetPosition().x << ", " << body->GetPosition().y << ")" << std::endl;
 
     b2CircleShape circle;
     circle.m_radius = radius / Constants::SCALE;
@@ -27,6 +31,8 @@ Pig::Pig(b2World& world, float x, float y, float radius, int health, sf::Texture
 
     // Set origin to center for proper rotation and positioning
     sprite.setOrigin(size.x / 2.0f, size.y / 2.0f);
+
+	std::cout << "Final pig position: (" << body->GetPosition().x << ", " << body->GetPosition().y << ")" << std::endl;
 }
 
 void Pig::Render(sf::RenderWindow& window) {

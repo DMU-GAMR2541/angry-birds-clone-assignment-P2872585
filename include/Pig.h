@@ -19,4 +19,8 @@ public:
 	bool checkIfPopped() const {
 		return markRemoved;
 	}
+
+	sf::Sprite getSprite() const {
+		return sprite;
+	}
 };
