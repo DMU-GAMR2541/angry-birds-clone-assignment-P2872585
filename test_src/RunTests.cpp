@@ -73,6 +73,18 @@ TEST_F(EnemyTest, SpriteLoaded) {
 	EXPECT_FALSE(enemy->getSprite().getTexture() == nullptr);
 }
 
+TEST(TextureLoadingTest, PigSprite) {
+    // Check that the texture loads
+    sf::Texture texture;
+    ASSERT_TRUE(texture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png"));
+
+    b2World world(b2Vec2(0.0f, 9.8f));
+    SmallPig pig(world, 100.0f, 100.0f, texture);
+
+    // Check that the pig actually has the sprite
+    EXPECT_NE(pig.getSprite().getTexture(), nullptr);
+}
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
