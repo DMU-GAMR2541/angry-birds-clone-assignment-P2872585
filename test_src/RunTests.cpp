@@ -2,6 +2,7 @@
 #include "SmallPig.h"
 #include "MediumPig.h"
 #include "LargePig.h"
+#include "Wall.h"
 #include <iostream>
 
 /// <summary>
@@ -98,6 +99,22 @@ TEST(PigHealthScaleTest, PigHealthIncreasesWithSize) {
     // Medium must have more health than small and big must have more health than medium
     EXPECT_GT(medium.getHealth(), small.getHealth());
     EXPECT_GT(big.getHealth(), medium.getHealth());
+}
+
+TEST(RelativePositionTest, RelativeToThreeObjects) {
+    b2World world(b2Vec2(0.0f, 9.8f));
+
+    sf::Texture texture;
+    SmallPig pig(world, 400.0f, 400.0f, texture);
+    b2Vec2 pigPosition = pig.getPosition();
+
+    Wall left(world, 100.0f, 300.0f, 20.0f, 200.0f);
+    Wall right(world, 700.0f, 300.0f, 20.0f, 200.0f);
+    Wall floor(world, 400.0f, 550.0f, 600.0f, 20.0f);
+
+    EXPECT_GT(pigPosition.x, left.getBody()->GetPosition().x);
+    EXPECT_LT(pigPosition.x, right.getBody()->GetPosition().x);
+    EXPECT_LT(pigPosition.y, floor.getBody()->GetPosition().y);
 }
 
 int main(int argc, char** argv) {
