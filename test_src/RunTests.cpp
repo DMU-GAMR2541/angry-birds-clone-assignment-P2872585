@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "SmallPig.h"
+#include "MediumPig.h"
+#include "LargePig.h"
 #include <iostream>
 
 /// <summary>
@@ -83,6 +85,19 @@ TEST(TextureLoadingTest, PigSprite) {
 
     // Check that the pig actually has the sprite
     EXPECT_NE(pig.getSprite().getTexture(), nullptr);
+}
+
+TEST(PigHealthScaleTest, PigHealthIncreasesWithSize) {
+    b2World world(b2Vec2(0.0f, 9.8f));
+    sf::Texture texture;
+
+    SmallPig small(world, 100.0f, 100.0f, texture);
+    MediumPig medium(world, 100.0f, 100.0f, texture);
+    LargePig big(world, 100.0f, 100.0f, texture);
+
+    // Medium must have more health than small and big must have more health than medium
+    EXPECT_GT(medium.getHealth(), small.getHealth());
+    EXPECT_GT(big.getHealth(), medium.getHealth());
 }
 
 int main(int argc, char** argv) {
