@@ -3,28 +3,28 @@
 #include "MediumPig.h"
 #include "LargePig.h"
 #include "Wall.h"
-#include <iostream>
 
 /// <summary>
 ///Taken from the GoogleTest primer. 
 /// </summary>
 
-// The fixture for testing class Foo.
-class EnemyTest : public testing::Test {
+class WorldTest : public testing::Test {
 public:
-    // TODO shared ptr?
     b2World world = b2World(b2Vec2(0.0f, 9.8f)); // Earth-like gravity;
+};
+
+class SinglePigTest : public WorldTest {
+public:
     std::unique_ptr<SmallPig> enemy;
 protected:
     // You can remove any or all of the following functions if their bodies would
     // be empty.
 
-    EnemyTest() {
+    SinglePigTest() {
         // You can do set-up work for each test here.
-
     }
 
-    ~EnemyTest() override {
+    ~SinglePigTest() override {
         // You can do clean-up work that doesn't throw exceptions here.
     }
 
@@ -34,38 +34,23 @@ protected:
     void SetUp() override {
         // Code here will be called immediately after the constructor (right
         // before each test).
-        
-        sf::Texture pigTexture;
-        if (!pigTexture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png")) {
-            std::cout << "Failed to load texture" << std::endl;
-        }
 
+        sf::Texture pigTexture;
 		enemy = std::make_unique<SmallPig>(SmallPig(world, 10.0f, 5.0f, pigTexture)); // All enemnies in this test suite start with 50 HP.
-		std::cout << "Pig position at setup: (" << enemy->getPosition().x << ", " << enemy->getPosition().y << ")" << std::endl;
     }
 
     void TearDown() override {
         // Code here will be called immediately after each test (right
         // before the destructor).
     }
-
-
 };
 
-//A single test, not a fixture. No setup is called.
-//TEST(Pig, First_test) {
-//    SmallPig e(100);
-//    EXPECT_GT(e.getHealth(), 100);
-//    SUCCEED() << "Test test passed";
-//    FAIL() << "Test didn't pass";
-//}
-
-TEST_F(EnemyTest, LethalDamagePopsPig) {
+TEST_F(SinglePigTest, LethalDamagePopsPig) {
     enemy->takeDamage(60);
     EXPECT_TRUE(enemy->checkIfPopped());
 }
 
-TEST_F(EnemyTest, SpawnPositionIsCorrect) {
+TEST_F(SinglePigTest, SpawnPositionIsCorrect) {
     ASSERT_NE(enemy->getBody(), nullptr);
 
     b2Vec2 pos = enemy->getPosition();
@@ -73,24 +58,22 @@ TEST_F(EnemyTest, SpawnPositionIsCorrect) {
 	EXPECT_FLOAT_EQ(pos.y, 5.0f / Constants::SCALE);
 }
 
-TEST_F(EnemyTest, SpriteLoaded) {
+TEST_F(SinglePigTest, SpriteLoaded) {
 	EXPECT_FALSE(enemy->getSprite().getTexture() == nullptr);
 }
 
-TEST(TextureLoadingTest, PigSprite) {
+TEST_F(WorldTest, PigSpriteLoads) {
     // Check that the texture loads
     sf::Texture texture;
     ASSERT_TRUE(texture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png"));
 
-    b2World world(b2Vec2(0.0f, 9.8f));
     SmallPig pig(world, 100.0f, 100.0f, texture);
 
     // Check that the pig actually has the sprite
     EXPECT_NE(pig.getSprite().getTexture(), nullptr);
 }
 
-TEST(PigHealthScaleTest, PigHealthIncreasesWithSize) {
-    b2World world(b2Vec2(0.0f, 9.8f));
+TEST_F(WorldTest, PigHealthIncreasesWithSize) {
     sf::Texture texture;
 
     SmallPig small(world, 100.0f, 100.0f, texture);
@@ -102,9 +85,7 @@ TEST(PigHealthScaleTest, PigHealthIncreasesWithSize) {
     EXPECT_GT(big.getHealth(), medium.getHealth());
 }
 
-TEST(RelativePositionTest, RelativeToThreeObjects) {
-    b2World world(b2Vec2(0.0f, 9.8f));
-
+TEST_F(WorldTest, RelativePositionToThreeObjects) {
     sf::Texture texture;
     SmallPig pig(world, 400.0f, 400.0f, texture);
     b2Vec2 pigPosition = pig.getPosition();
