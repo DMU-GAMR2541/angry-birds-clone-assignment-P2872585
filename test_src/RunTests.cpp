@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
+#include "BlueBird.h"
 #include "SmallPig.h"
 #include "MediumPig.h"
 #include "LargePig.h"
 #include "Wall.h"
+#include "YellowBird.h"
 
 /// <summary>
 ///Taken from the GoogleTest primer. 
@@ -104,6 +106,39 @@ TEST_F(SinglePigTest, PigFalls) {
     float startY = enemy->getPosition().y;
     world.Step(1.0f / 60.0f, 8, 3);
     EXPECT_GT(enemy->getPosition().y, startY);
+}
+
+class GameObjectsTest : public WorldTest {
+public:
+    std::vector<GameObject*> gameObjects;
+
+    std::unique_ptr<BlueBird> blueBird;
+    std::unique_ptr<YellowBird> yellowBird;
+protected:
+    GameObjectsTest() = default;
+    ~GameObjectsTest() override = default;
+
+    void SetUp() override {
+        sf::Texture birdTexture;
+        blueBird = std::make_unique<BlueBird>(BlueBird(world, 100.0f, 100.0f, birdTexture, &gameObjects));
+        yellowBird = std::make_unique<YellowBird>(YellowBird(world, 200.0f, 200.0f, birdTexture));
+    }
+
+    void TearDown() override {
+        gameObjects.clear();
+    }
+};
+
+TEST_F(GameObjectsTest, BirdAbilityActivatesOnce) {
+    EXPECT_FALSE(blueBird->hasUsedAbility());
+    EXPECT_FALSE(yellowBird->hasUsedAbility());
+
+    EXPECT_TRUE(blueBird->activateSpecialAbility());
+    EXPECT_TRUE(yellowBird->activateSpecialAbility());
+
+    // Activating it again shouldn't work
+    EXPECT_TRUE(blueBird->hasUsedAbility());
+    EXPECT_TRUE(yellowBird->hasUsedAbility());
 }
 
 class VelocityTest : public testing::TestWithParam<float> {};
