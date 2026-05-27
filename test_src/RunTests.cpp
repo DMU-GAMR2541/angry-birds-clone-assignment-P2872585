@@ -99,6 +99,46 @@ TEST_F(WorldTest, RelativePositionToThreeObjects) {
     EXPECT_LT(pigPosition.y, floor.getBody()->GetPosition().y);
 }
 
+TEST_F(SinglePigTest, PigFalls) {
+    // Check that the pig falls
+    float startY = enemy->getPosition().y;
+    world.Step(1.0f / 60.0f, 8, 3);
+    EXPECT_GT(enemy->getPosition().y, startY);
+}
+
+class VelocityTest : public testing::TestWithParam<float> {};
+
+TEST_P(VelocityTest, PigMovesWithVelocity) {
+    b2World world = b2World(b2Vec2(0.0f, 9.8f)); // Earth-like gravity;
+    sf::Texture texture;
+    SmallPig pig(world, 100.0f, 100.0f, texture);
+
+    float velocity = GetParam();
+    pig.getBody()->SetLinearVelocity(b2Vec2(velocity, 0.0f));
+    world.Step(1.0f / 60.0f, 8, 3);
+    EXPECT_FLOAT_EQ(pig.getBody()->GetLinearVelocity().x, velocity);
+
+    float startX = pig.getPosition().x;
+    for (int i = 0; i < 60; i++) {
+        world.Step(1.0f / 60.0f, 8, 3);
+    }
+
+    float movement = pig.getPosition().x - startX;
+    // Check movement direction
+    if (velocity == 0.0) {
+        EXPECT_FLOAT_EQ(movement, 0.0f);
+    } else if (velocity < 0.0) {
+        EXPECT_LT(movement, 0.0f);
+    } else {
+        EXPECT_GT(movement, 0.0f);
+    }
+
+    // Check movement distance
+    EXPECT_NEAR(movement, velocity, 0.01f);
+}
+
+INSTANTIATE_TEST_SUITE_P(VelocityTest, VelocityTest, testing::Values(-3.0f, -2.0f, -1.0f, 0.0f, 1.0f, 2.0f, 3.0f));
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
