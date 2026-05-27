@@ -66,8 +66,9 @@ TEST_F(EnemyTest, LethalDamagePopsPig) {
 }
 
 TEST_F(EnemyTest, SpawnPositionIsCorrect) {
+    ASSERT_NE(enemy->getBody(), nullptr);
+
     b2Vec2 pos = enemy->getPosition();
-	std::cout << "Pig position: (" << pos.x << ", " << pos.y << ")" << std::endl;
     EXPECT_FLOAT_EQ(pos.x, 10.0f / Constants::SCALE);
 	EXPECT_FLOAT_EQ(pos.y, 5.0f / Constants::SCALE);
 }

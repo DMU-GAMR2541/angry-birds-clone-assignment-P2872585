@@ -65,6 +65,11 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         ${CMAKE_SOURCE_DIR}/assets
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/assets)
 
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${sfml_SOURCE_DIR}/extlibs/bin/x64/openal32.dll
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+
 # --- Unit Tests ---
 #add_executable(RunUnitTests ${HEADERS})
 # Remove a specific file from the list
@@ -86,7 +91,12 @@ target_link_libraries(RunUnitTests
     sfml-system
 ) 
 
-add_test(NAME RunUnitTests COMMAND RunUnitTests) 
+add_custom_command(TARGET RunUnitTests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${sfml_SOURCE_DIR}/extlibs/bin/x64/openal32.dll
+        $<TARGET_FILE_DIR:RunUnitTests>)
+
+add_test(NAME RunUnitTests COMMAND RunUnitTests)
 
 # --- Housekeeping ---
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) 
