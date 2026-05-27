@@ -141,6 +141,12 @@ TEST_F(GameObjectsTest, BirdAbilityActivatesOnce) {
     EXPECT_TRUE(yellowBird->hasUsedAbility());
 }
 
+TEST_F(GameObjectsTest, BlueBirdAbilitySpawnsTwoBirds) {
+    unsigned int initialSize = gameObjects.size();
+    blueBird->activateSpecialAbility();
+    EXPECT_EQ(gameObjects.size(), initialSize + 2);
+}
+
 class VelocityTest : public testing::TestWithParam<float> {};
 
 TEST_P(VelocityTest, PigMovesWithVelocity) {
