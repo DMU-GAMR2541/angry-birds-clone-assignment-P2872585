@@ -180,6 +180,52 @@ TEST_P(VelocityTest, PigMovesWithVelocity) {
 
 INSTANTIATE_TEST_SUITE_P(VelocityTest, VelocityTest, testing::Values(-3.0f, -2.0f, -1.0f, 0.0f, 1.0f, 2.0f, 3.0f));
 
+// I don't have destructors that do anything in the actual game objects so I made example classes
+std::vector<std::string> destructorLogs;
+
+class TestGameObject {
+    public:
+        virtual ~TestGameObject() {
+            destructorLogs.push_back("GameObject");
+        }
+};
+
+class TestDynamicObject : public TestGameObject {
+    public:
+        ~TestDynamicObject() override {
+            destructorLogs.push_back("DynamicObject");
+        }
+};
+
+class TestEnemy : public TestDynamicObject {
+    public:
+        ~TestEnemy() override {
+            destructorLogs.push_back("Enemy");
+        }
+};
+
+class TestPig : public TestEnemy {
+    public:
+        ~TestPig() override {
+            destructorLogs.push_back("Pig");
+        }
+};
+
+TEST(DestructorSequenceTest, EveryDestructorRuns) {
+    // Create object then delete it
+    TestGameObject* object = new TestPig();
+    delete object;
+
+    // Size must be 4
+    ASSERT_EQ(destructorLogs.size(), 4);
+
+    // Check what's in the vector
+    EXPECT_EQ(destructorLogs[0], "Pig");
+    EXPECT_EQ(destructorLogs[1], "Enemy");
+    EXPECT_EQ(destructorLogs[2], "DynamicObject");
+    EXPECT_EQ(destructorLogs[3], "GameObject");
+}
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
