@@ -18,14 +18,27 @@
 
 struct LoadProgress {
 	std::mutex mutex;
+	float spriteLoadedPercent = 0.0f;
+	float physicsLoadedPercent = 0.0f;
 };
 
-void loadData(LoadProgress& progress) {
+void loadSpriteData(LoadProgress& progress) {
 	std::lock_guard<std::mutex> guard(progress.mutex);
 	for (int i = 0; i < 10; ++i) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(150));
 		float loadedPercent = i / 10.0f;
-		std::cout << "Loaded: " << loadedPercent << std::endl;
+		std::cout << "Loaded sprites: " << loadedPercent << std::endl;
+		progress.spriteLoadedPercent = loadedPercent;
+	}
+}
+
+void loadPhysicsData(LoadProgress& progress) {
+	std::lock_guard<std::mutex> guard(progress.mutex);
+	for (int i = 0; i < 10; ++i) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+		float loadedPercent = i / 10.0f;
+		std::cout << "Loaded physics: " << loadedPercent << std::endl;
+		progress.physicsLoadedPercent = loadedPercent;
 	}
 }
 
@@ -35,8 +48,10 @@ int main() {
     window.setFramerateLimit(60);
 
 	LoadProgress progress;
-	std::thread dataThread(loadData, std::ref(progress));
-	dataThread.join();
+	std::thread physicsDataThread(loadPhysicsData, std::ref(progress));
+	std::thread spriteDataThread(loadSpriteData, std::ref(progress));
+	physicsDataThread.join();
+	spriteDataThread.join();
 
     sf::Music music;
     music.openFromFile("assets/sounds/Theme.flac");
