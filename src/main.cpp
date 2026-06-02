@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <box2d/box2d.h>
 #include <iostream>
+#include <thread>
+#include <mutex>
 #include "ContactListener.h"
 #include "Ground.h"
 #include "Wall.h"
@@ -14,10 +16,27 @@
 #include "Bird.h"
 #include "SFML/Audio/Music.hpp"
 
+struct LoadProgress {
+	std::mutex mutex;
+};
+
+void loadData(LoadProgress& progress) {
+	std::lock_guard<std::mutex> guard(progress.mutex);
+	for (int i = 0; i < 10; ++i) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
+		float loadedPercent = i / 10.0f;
+		std::cout << "Loaded: " << loadedPercent << std::endl;
+	}
+}
+
 int main() {
     // --- 1. WINDOW SETUP ---
     sf::RenderWindow window(sf::VideoMode(800, 600), "Annoyed_Flocks");
     window.setFramerateLimit(60);
+
+	LoadProgress progress;
+	std::thread dataThread(loadData, std::ref(progress));
+	dataThread.join();
 
     sf::Music music;
     music.openFromFile("assets/sounds/Theme.flac");
