@@ -60,6 +60,30 @@ void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
 	title.setOrigin(tb.left + tb.width / 2.0f, tb.top + tb.height / 2.0f);
 	title.setPosition(window.getSize().x / 2.0f, 80.0f);
 
+	sf::Texture redBirdTexture;
+	sf::Sprite redBirdSprite;
+	if (redBirdTexture.loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
+		redBirdSprite.setTexture(redBirdTexture);
+		redBirdSprite.setScale(0.25f, 0.25f);
+		sf::FloatRect bb = redBirdSprite.getLocalBounds();
+		redBirdSprite.setOrigin(bb.width / 2.0f, bb.height / 2.0f);
+		redBirdSprite.setPosition(window.getSize().x / 4.0f, window.getSize().y / 2.0f);
+	} else {
+		std::cout << "Failed to load start screen image" << std::endl;
+	}
+
+	sf::Texture pigTexture;
+	sf::Sprite pigSprite;
+	if (pigTexture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png")) {
+		pigSprite.setTexture(pigTexture);
+		pigSprite.setScale(0.5f, 0.5f);
+		sf::FloatRect ab = pigSprite.getLocalBounds();
+		pigSprite.setOrigin(ab.width / 2.0f, ab.height / 2.0f);
+		pigSprite.setPosition(window.getSize().x * 3.0f / 4.0f, window.getSize().y / 2.0f);
+	} else {
+		std::cout << "Failed to load start screen image" << std::endl;
+	}
+
 	float barWidth = window.getSize().x / 2.0f;
 	float barHeight = 30.0f;
 	float barX = barWidth / 2.0f;
@@ -106,6 +130,8 @@ void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
 		window.draw(barBackground);
 		window.draw(barFill);
 		window.draw(percentText);
+		window.draw(redBirdSprite);
+		window.draw(pigSprite);
 		window.display();
 
 		if (percent >= 100.0f) {
