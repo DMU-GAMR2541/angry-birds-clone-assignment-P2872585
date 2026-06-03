@@ -20,12 +20,19 @@ struct LoadProgress {
 	std::mutex mutex;
 	float spriteLoadedPercent = 0.0f;
 	float physicsLoadedPercent = 0.0f;
+
+	float getTotalLoadedPercent() const {
+		// Convert to 0-100%
+		return ((spriteLoadedPercent + physicsLoadedPercent) / 2.0f) * 100.0f;
+	}
 };
 
 void loadSpriteData(LoadProgress& progress) {
-	std::lock_guard<std::mutex> guard(progress.mutex);
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i <= 10; ++i) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(150));
+
+		// Guard when modifying progress
+		std::lock_guard<std::mutex> guard(progress.mutex);
 		float loadedPercent = i / 10.0f;
 		std::cout << "Loaded sprites: " << loadedPercent << std::endl;
 		progress.spriteLoadedPercent = loadedPercent;
@@ -33,13 +40,81 @@ void loadSpriteData(LoadProgress& progress) {
 }
 
 void loadPhysicsData(LoadProgress& progress) {
-	std::lock_guard<std::mutex> guard(progress.mutex);
-	for (int i = 0; i < 10; ++i) {
+	for (int i = 0; i <= 10; ++i) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+		// Guard when modifying progress
+		std::lock_guard<std::mutex> guard(progress.mutex);
 		float loadedPercent = i / 10.0f;
 		std::cout << "Loaded physics: " << loadedPercent << std::endl;
 		progress.physicsLoadedPercent = loadedPercent;
 	}
+}
+
+void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
+	sf::Text title("Annoyed Flocks", font, 60);
+	title.setFillColor(sf::Color::White);
+	title.setOutlineColor(sf::Color::Black);
+	title.setOutlineThickness(3.0f);
+	sf::FloatRect tb = title.getLocalBounds();
+	title.setOrigin(tb.left + tb.width / 2.0f, tb.top + tb.height / 2.0f);
+	title.setPosition(window.getSize().x / 2.0f, 80.0f);
+
+	float barWidth = window.getSize().x / 2.0f;
+	float barHeight = 30.0f;
+	float barX = barWidth / 2.0f;
+	float barY = 500.0f;
+	sf::RectangleShape barBackground(sf::Vector2f(barWidth, barHeight));
+	barBackground.setPosition(barX, barY);
+	barBackground.setFillColor(sf::Color(50, 50, 50));
+
+	sf::RectangleShape barFill(sf::Vector2f(0.0f, barHeight));
+	barFill.setPosition(barX, barY);
+	barFill.setFillColor(sf::Color::Green);
+
+	sf::Text percentText("", font, 24);
+	sf::FloatRect pb = percentText.getLocalBounds();
+	percentText.setOrigin(pb.left + pb.width / 2.0f, pb.top + pb.height / 2.0f);
+	percentText.setPosition(window.getSize().x / 2.0f, 540.0f);
+
+	LoadProgress progress;
+	std::thread physicsThread(loadPhysicsData, std::ref(progress));
+	std::thread spriteThread(loadSpriteData, std::ref(progress));
+
+	bool loading = true;
+	while (loading && window.isOpen()) {
+		std::cout << "Loop!" << std::endl;
+		sf::Event event;
+		// Lets you close the game whilst it's loading
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			}
+		}
+
+		// Guard when reading progress
+		std::lock_guard<std::mutex> lock(progress.mutex);
+		float percent = progress.getTotalLoadedPercent();
+
+		std::cout << "Loaded: " << percent << "%" << std::endl;
+
+		barFill.setSize(sf::Vector2f(barWidth * (percent / 100.0f), barHeight));
+		percentText.setString(std::to_string(static_cast<int>(percent)) + "%");
+
+		window.clear(sf::Color(135, 206, 235)); // Sky Blue
+		window.draw(title);
+		window.draw(barBackground);
+		window.draw(barFill);
+		window.draw(percentText);
+		window.display();
+
+		if (percent >= 100.0f) {
+			loading = false;
+		}
+	}
+
+	physicsThread.join();
+	spriteThread.join();
 }
 
 int main() {
@@ -47,11 +122,13 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Annoyed_Flocks");
     window.setFramerateLimit(60);
 
-	LoadProgress progress;
-	std::thread physicsDataThread(loadPhysicsData, std::ref(progress));
-	std::thread spriteDataThread(loadSpriteData, std::ref(progress));
-	physicsDataThread.join();
-	spriteDataThread.join();
+	sf::Font font;
+	if (!font.loadFromFile("assets/fonts/angry-birds.ttf")) {
+		std::cout << "Failed to load font" << std::endl;
+		return -1;
+	}
+
+	loadStartScreen(window, font);
 
     sf::Music music;
     music.openFromFile("assets/sounds/Theme.flac");
@@ -66,12 +143,6 @@ int main() {
 
 	ContactListener contactListener = ContactListener(&gameObjects);
 	world.SetContactListener(&contactListener);
-
-	sf::Font font;
-	if (!font.loadFromFile("assets/fonts/angry-birds.ttf")) {
-		std::cout << "Failed to load font" << std::endl;
-		return -1;
-	}
 
 	UI pigsUI(font, &gameObjects, 10.0f, 10.0f);
 	pigsUI.spawn(&gameObjects);
