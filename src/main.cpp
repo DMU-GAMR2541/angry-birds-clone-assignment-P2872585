@@ -324,6 +324,12 @@ int main() {
 
                 // Remove from gameObjects
                 it = gameObjects.erase(it);
+
+            	Pig* pig = dynamic_cast<Pig*>(object);
+            	if (pig) {
+            		// Maybe could use destructor instead somehow?
+            		memoryPool.release(pig);
+            	}
             } else {
                 ++it;
             }
