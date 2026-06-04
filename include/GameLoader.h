@@ -22,7 +22,6 @@ private:
             // Guard when modifying progress
             std::lock_guard<std::mutex> guard(progress.mutex);
             float loadedPercent = i / 10.0f;
-            std::cout << "Loaded physics: " << loadedPercent << std::endl;
             progress.physicsLoadedPercent = loadedPercent;
         }
     }
@@ -34,7 +33,6 @@ private:
             // Guard when modifying progress
             std::lock_guard<std::mutex> guard(progress.mutex);
             float loadedPercent = i / 10.0f;
-            std::cout << "Loaded sprites: " << loadedPercent << std::endl;
             progress.spriteLoadedPercent = loadedPercent;
         }
     }
@@ -96,7 +94,6 @@ public:
 
 		bool loading = true;
 		while (loading && window.isOpen()) {
-			std::cout << "Loop!" << std::endl;
 			sf::Event event;
 			// Lets you close the game whilst it's loading
 			while (window.pollEvent(event)) {
@@ -108,8 +105,6 @@ public:
 			// Guard when reading progress
 			std::lock_guard<std::mutex> lock(progress.mutex);
 			float percent = progress.getTotalLoadedPercent();
-
-			std::cout << "Loaded: " << percent << "%" << std::endl;
 
 			barFill.setSize(sf::Vector2f(barWidth * (percent / 100.0f), barHeight));
 			percentText.setString(std::to_string(static_cast<int>(percent)) + "%");
