@@ -3,6 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <mutex>
+#include <future>
 #include "ContactListener.h"
 #include "Ground.h"
 #include "Wall.h"
@@ -27,18 +28,6 @@ struct LoadProgress {
 	}
 };
 
-void loadSpriteData(LoadProgress& progress) {
-	for (int i = 0; i <= 10; ++i) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(150));
-
-		// Guard when modifying progress
-		std::lock_guard<std::mutex> guard(progress.mutex);
-		float loadedPercent = i / 10.0f;
-		std::cout << "Loaded sprites: " << loadedPercent << std::endl;
-		progress.spriteLoadedPercent = loadedPercent;
-	}
-}
-
 void loadPhysicsData(LoadProgress& progress) {
 	for (int i = 0; i <= 10; ++i) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(200));
@@ -48,6 +37,18 @@ void loadPhysicsData(LoadProgress& progress) {
 		float loadedPercent = i / 10.0f;
 		std::cout << "Loaded physics: " << loadedPercent << std::endl;
 		progress.physicsLoadedPercent = loadedPercent;
+	}
+}
+
+void loadSpriteData(LoadProgress& progress) {
+	for (int i = 0; i <= 10; ++i) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(150));
+
+		// Guard when modifying progress
+		std::lock_guard<std::mutex> guard(progress.mutex);
+		float loadedPercent = i / 10.0f;
+		std::cout << "Loaded sprites: " << loadedPercent << std::endl;
+		progress.spriteLoadedPercent = loadedPercent;
 	}
 }
 
@@ -65,8 +66,8 @@ void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
 	if (redBirdTexture.loadFromFile("assets/Ang_Birds/birds-png-3514.png")) {
 		redBirdSprite.setTexture(redBirdTexture);
 		redBirdSprite.setScale(0.25f, 0.25f);
-		sf::FloatRect bb = redBirdSprite.getLocalBounds();
-		redBirdSprite.setOrigin(bb.width / 2.0f, bb.height / 2.0f);
+		sf::FloatRect redBirdBounds = redBirdSprite.getLocalBounds();
+		redBirdSprite.setOrigin(redBirdBounds.width / 2.0f, redBirdBounds.height / 2.0f);
 		redBirdSprite.setPosition(window.getSize().x / 4.0f, window.getSize().y / 2.0f);
 	} else {
 		std::cout << "Failed to load start screen image" << std::endl;
@@ -77,8 +78,8 @@ void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
 	if (pigTexture.loadFromFile("assets/Ang_Birds/angry-birds-png-46187.png")) {
 		pigSprite.setTexture(pigTexture);
 		pigSprite.setScale(0.5f, 0.5f);
-		sf::FloatRect ab = pigSprite.getLocalBounds();
-		pigSprite.setOrigin(ab.width / 2.0f, ab.height / 2.0f);
+		sf::FloatRect pigBounds = pigSprite.getLocalBounds();
+		pigSprite.setOrigin(pigBounds.width / 2.0f, pigBounds.height / 2.0f);
 		pigSprite.setPosition(window.getSize().x * 3.0f / 4.0f, window.getSize().y / 2.0f);
 	} else {
 		std::cout << "Failed to load start screen image" << std::endl;
@@ -103,7 +104,7 @@ void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
 
 	LoadProgress progress;
 	std::thread physicsThread(loadPhysicsData, std::ref(progress));
-	std::thread spriteThread(loadSpriteData, std::ref(progress));
+	std::future<void> spriteThread = std::async(std::launch::async, loadSpriteData, std::ref(progress));
 
 	bool loading = true;
 	while (loading && window.isOpen()) {
@@ -140,7 +141,7 @@ void loadStartScreen(sf::RenderWindow& window, sf::Font& font) {
 	}
 
 	physicsThread.join();
-	spriteThread.join();
+	spriteThread.get();
 }
 
 int main() {
